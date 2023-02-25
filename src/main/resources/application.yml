@@ -1,1 +1,21 @@
+spring:
 
+  application:
+    name: attornatus-technical-test
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:h2:mem:TECHNICAL_TEST_DATABASE?createDatabaseIfNotExist=true
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: admin
+    platform: org.hibernate.dialect.h2Dialect
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
