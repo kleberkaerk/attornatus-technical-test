@@ -1,4 +1,4 @@
-package com.attornatus_technical_test;
+package com.attornatustechnicaltest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
