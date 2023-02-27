@@ -71,10 +71,8 @@ class PersonTest {
     void testEquals() {
 
         Assertions.assertThat(this.person)
-                .isEqualTo(this.samePerson);
-
-        Assertions.assertThat(this.person.equals(this.differentPerson))
-                .isFalse();
+                .isEqualTo(this.samePerson)
+                .isNotEqualTo(this.differentPerson);
     }
 
     @Test
