@@ -25,9 +25,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(
                 MethodArgumentNotValidExceptionDetails.MethodArgumentNotValidExceptionDetailsBuilder.builder()
                         .error(ex.getBody().getTitle())
-                        .message("Campo " +
-                                Objects.requireNonNull(ex.getFieldError()).getField() +
-                                " inválido, verifique o valor e tente novamente.")
+                        .message(Objects.requireNonNull(ex.getFieldError()).getDefaultMessage())
                         .build(),
                 HttpStatus.BAD_REQUEST);
     }
