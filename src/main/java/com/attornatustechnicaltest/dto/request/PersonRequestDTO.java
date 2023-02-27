@@ -2,6 +2,8 @@ package com.attornatustechnicaltest.dto.request;
 
 import jakarta.validation.constraints.Pattern;
 
+import java.util.Objects;
+
 public class PersonRequestDTO {
 
     @Pattern(regexp = "[a-zA-Z\\s]+", message = "Nome inválido, por favor verifique seu nome e tente novamente.")
@@ -22,6 +24,19 @@ public class PersonRequestDTO {
 
     public String getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonRequestDTO that = (PersonRequestDTO) o;
+        return Objects.equals(name, that.name) && Objects.equals(dateOfBirth, that.dateOfBirth);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, dateOfBirth);
     }
 
     public static final class PersonRequestDTOBuilder {

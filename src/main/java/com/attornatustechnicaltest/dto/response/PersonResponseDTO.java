@@ -1,5 +1,7 @@
 package com.attornatustechnicaltest.dto.response;
 
+import java.util.Objects;
+
 public class PersonResponseDTO {
 
     private final Long id;
@@ -23,6 +25,19 @@ public class PersonResponseDTO {
 
     public String getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PersonResponseDTO that = (PersonResponseDTO) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(dateOfBirth, that.dateOfBirth);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, dateOfBirth);
     }
 
     public static final class PersonResponseDTOBuilder {
