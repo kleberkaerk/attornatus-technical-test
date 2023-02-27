@@ -26,7 +26,7 @@ public class MethodArgumentNotValidExceptionDetails {
         private MethodArgumentNotValidExceptionDetailsBuilder() {
         }
 
-        public static MethodArgumentNotValidExceptionDetailsBuilder aMethodArgumentNotValidExceptionDetails() {
+        public static MethodArgumentNotValidExceptionDetailsBuilder builder() {
             return new MethodArgumentNotValidExceptionDetailsBuilder();
         }
 
