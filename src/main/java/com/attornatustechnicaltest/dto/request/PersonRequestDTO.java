@@ -1,13 +1,13 @@
 package com.attornatustechnicaltest.dto.request;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 public class PersonRequestDTO {
 
-    @NotEmpty()
+    @Pattern(regexp = "[a-zA-Z\\s]+", message = "Nome inválido, por favor verifique seu nome e tente novamente.")
     private final String name;
 
-    @NotEmpty()
+    @Pattern(regexp = "\\d{2}-\\d{2}-\\d{4}", message = "Data de nascimento inválida, por favor insira sua data de nascimento no formato dd-mm-aaaa.")
     private final String dateOfBirth;
 
     private PersonRequestDTO(String name, String dateOfBirth) {
@@ -25,8 +25,8 @@ public class PersonRequestDTO {
     }
 
     public static final class PersonRequestDTOBuilder {
-        private @NotEmpty() String name;
-        private @NotEmpty() String dateOfBirth;
+        private String name;
+        private String dateOfBirth;
 
         private PersonRequestDTOBuilder() {
         }
