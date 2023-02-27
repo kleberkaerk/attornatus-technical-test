@@ -1,9 +1,23 @@
 package com.attornatustechnicaltest.domain;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "persons")
 public class Person {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "date_of_birth")
     private String dateOfBirth;
+
+    protected Person() {
+    }
 
     private Person(String name, String dateOfBirth) {
 
