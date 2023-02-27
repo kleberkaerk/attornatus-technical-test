@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("persons")
 public class PersonController {
 
-    private PersonService personService;
+    private final PersonService personService;
 
     @Autowired
     protected PersonController(PersonService personService) {
