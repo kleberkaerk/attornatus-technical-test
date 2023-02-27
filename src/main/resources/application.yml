@@ -1,6 +1,8 @@
 server:
   error:
     include-stacktrace: never
+    whitelabel:
+      enabled: false
 
 spring:
 
