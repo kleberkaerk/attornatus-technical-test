@@ -49,10 +49,8 @@ class PersonRequestDTOTest {
     void testEquals() {
 
         Assertions.assertThat(this.personRequestDTO)
-                .isEqualTo(this.samePersonRequestDTO);
-
-        Assertions.assertThat(this.personRequestDTO.equals(this.differentPersonRequestDTO))
-                .isFalse();
+                .isEqualTo(this.samePersonRequestDTO)
+                .isNotEqualTo(this.differentPersonRequestDTO);
     }
 
     @Test
