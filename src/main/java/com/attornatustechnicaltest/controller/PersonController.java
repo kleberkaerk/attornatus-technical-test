@@ -1,6 +1,7 @@
 package com.attornatustechnicaltest.controller;
 
 import com.attornatustechnicaltest.dto.request.PersonRequestDTO;
+import com.attornatustechnicaltest.dto.response.PersonResponseDTO;
 import com.attornatustechnicaltest.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +21,10 @@ public class PersonController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<PersonRequestDTO> registerPerson(@RequestBody PersonRequestDTO personRequestDTO) {
+    public ResponseEntity<PersonResponseDTO> registerPerson(@RequestBody PersonRequestDTO personRequestDTO) {
 
-        return new ResponseEntity<>(personRequestDTO, HttpStatus.CREATED);
+        return new ResponseEntity<>(
+                this.personService.registerPerson(personRequestDTO),
+                HttpStatus.CREATED);
     }
-
 }
