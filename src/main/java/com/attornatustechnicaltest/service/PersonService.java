@@ -19,7 +19,7 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public PersonResponseDTO registerNewPerson(PersonRequestDTO personRequestDTO) {
+    public PersonResponseDTO registerPerson(PersonRequestDTO personRequestDTO) {
 
         Person personToBeSaved = Mapper.fromPersonRequestDTOToPerson(personRequestDTO);
 
