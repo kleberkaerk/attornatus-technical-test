@@ -1,8 +1,13 @@
 package com.attornatustechnicaltest.dto.request;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class PersonRequestDTO {
 
+    @NotEmpty()
     private final String name;
+
+    @NotEmpty()
     private final String dateOfBirth;
 
     private PersonRequestDTO(String name, String dateOfBirth) {
@@ -20,8 +25,8 @@ public class PersonRequestDTO {
     }
 
     public static final class PersonRequestDTOBuilder {
-        private String name;
-        private String dateOfBirth;
+        private @NotEmpty() String name;
+        private @NotEmpty() String dateOfBirth;
 
         private PersonRequestDTOBuilder() {
         }
