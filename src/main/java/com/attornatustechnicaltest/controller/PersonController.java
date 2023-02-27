@@ -20,7 +20,7 @@ public class PersonController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<PersonRequestDTO> registerNewPerson(@RequestBody PersonRequestDTO personRequestDTO) {
+    public ResponseEntity<PersonRequestDTO> registerPerson(@RequestBody PersonRequestDTO personRequestDTO) {
 
         return new ResponseEntity<>(personRequestDTO, HttpStatus.CREATED);
     }
