@@ -34,6 +34,7 @@ public class Person {
     }
 
     public static final class PersonBuilder {
+        private Long id;
         private String name;
         private String dateOfBirth;
 
@@ -41,25 +42,28 @@ public class Person {
         }
 
         public static PersonBuilder builder() {
-
             return new PersonBuilder();
         }
 
-        public PersonBuilder name(String name) {
+        public PersonBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
 
+        public PersonBuilder name(String name) {
             this.name = name;
             return this;
         }
 
         public PersonBuilder dateOfBirth(String dateOfBirth) {
-
             this.dateOfBirth = dateOfBirth;
             return this;
         }
 
         public Person build() {
-
-            return new Person(name, dateOfBirth);
+            Person person = new Person(name, dateOfBirth);
+            person.id = this.id;
+            return person;
         }
     }
 }
