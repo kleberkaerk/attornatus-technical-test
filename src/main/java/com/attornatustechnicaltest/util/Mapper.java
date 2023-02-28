@@ -32,7 +32,6 @@ public class Mapper {
     public static Address fromAddressRequestDTOToAddress(AddressRequestDTO addressRequestDTO, Person person) {
 
         return Address.AddressBuilder.builder()
-                .id(addressRequestDTO.getPersonId())
                 .cep(addressRequestDTO.getCep())
                 .number(addressRequestDTO.getNumber())
                 .publicPlace(addressRequestDTO.getPublicPlace())
