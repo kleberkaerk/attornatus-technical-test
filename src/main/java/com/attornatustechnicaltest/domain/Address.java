@@ -25,7 +25,8 @@ public class Address {
     @JoinColumn(name = "person_id")
     private Person person;
 
-    protected Address() {}
+    protected Address() {
+    }
 
     public Address(Long id, String cep, String number, String publicPlace, String city, boolean isMain, Person person) {
         this.id = id;
@@ -83,7 +84,12 @@ public class Address {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return isMain == address.isMain && Objects.equals(id, address.id) && Objects.equals(cep, address.cep) && Objects.equals(number, address.number) && Objects.equals(publicPlace, address.publicPlace) && Objects.equals(city, address.city) && Objects.equals(person, address.person);
+        return isMain == address.isMain &&
+                Objects.equals(id, address.id) &&
+                Objects.equals(cep, address.cep) &&
+                Objects.equals(number, address.number) &&
+                Objects.equals(publicPlace, address.publicPlace) &&
+                Objects.equals(city, address.city) && Objects.equals(person, address.person);
     }
 
     @Override
