@@ -1,5 +1,7 @@
 package com.attornatustechnicaltest.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class AddressRequestDTO {
@@ -9,6 +11,8 @@ public class AddressRequestDTO {
     private final String number;
     private final String publicPlace;
     private final String city;
+
+    @JsonProperty("main")
     private final boolean isMain;
 
     private AddressRequestDTO(Long personId, String cep, String number, String publicPlace, String city, boolean isMain) {
