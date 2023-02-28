@@ -1,15 +1,23 @@
 package com.attornatustechnicaltest.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
 public class AddressRequestDTO {
 
+    @NotNull(message = "Id da pessoa inválido, por favor verifique o id da pessoa e tente novamente.")
     private final Long personId;
+    @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP inválido, por favor insira o seu cep no formato 00000-000.")
     private final String cep;
+    @Pattern(regexp = "[\\da-zA-Z]+", message = "Número inválido, por favor verifique seu número e tente novamente.")
     private final String number;
+    @Pattern(regexp = "[a-zA-ZçÇáÁéÉíÍóÓúÚãÃõÕâÂêÊîÎôÔûÛ\\s]+", message = "Logradouro inválido, por favor verifique seu logradouro e tente novamente.")
     private final String publicPlace;
+
+    @Pattern(regexp = "[a-zA-ZçÇáÁéÉíÍóÓúÚãÃõÕâÂêÊîÎôÔûÛ\\s]+", message = "Cidade inválida, por favor verifique sua cidade e tente novamente.")
     private final String city;
 
     @JsonProperty("main")
