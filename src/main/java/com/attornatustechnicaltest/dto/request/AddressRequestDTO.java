@@ -5,15 +5,15 @@ import java.util.Objects;
 public class AddressRequestDTO {
 
     private final Long personId;
-    private final String cpf;
+    private final String cep;
     private final String number;
     private final String publicPlace;
     private final String city;
     private final boolean isMain;
 
-    private AddressRequestDTO(Long personId, String cpf, String number, String publicPlace, String city, boolean isMain) {
+    private AddressRequestDTO(Long personId, String cep, String number, String publicPlace, String city, boolean isMain) {
         this.personId = personId;
-        this.cpf = cpf;
+        this.cep = cep;
         this.number = number;
         this.publicPlace = publicPlace;
         this.city = city;
@@ -24,8 +24,8 @@ public class AddressRequestDTO {
         return personId;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCep() {
+        return cep;
     }
 
     public String getNumber() {
@@ -49,22 +49,17 @@ public class AddressRequestDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AddressRequestDTO that = (AddressRequestDTO) o;
-        return isMain == that.isMain &&
-                Objects.equals(personId, that.personId) &&
-                Objects.equals(cpf, that.cpf) &&
-                Objects.equals(number, that.number) &&
-                Objects.equals(publicPlace, that.publicPlace) &&
-                Objects.equals(city, that.city);
+        return isMain == that.isMain && Objects.equals(personId, that.personId) && Objects.equals(cep, that.cep) && Objects.equals(number, that.number) && Objects.equals(publicPlace, that.publicPlace) && Objects.equals(city, that.city);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(personId, cpf, number, publicPlace, city, isMain);
+        return Objects.hash(personId, cep, number, publicPlace, city, isMain);
     }
 
     public static final class AddressRequestDTOBuilder {
         private Long personId;
-        private String cpf;
+        private String cep;
         private String number;
         private String publicPlace;
         private String city;
@@ -82,8 +77,8 @@ public class AddressRequestDTO {
             return this;
         }
 
-        public AddressRequestDTOBuilder cpf(String cpf) {
-            this.cpf = cpf;
+        public AddressRequestDTOBuilder cep(String cep) {
+            this.cep = cep;
             return this;
         }
 
@@ -108,7 +103,7 @@ public class AddressRequestDTO {
         }
 
         public AddressRequestDTO build() {
-            return new AddressRequestDTO(personId, cpf, number, publicPlace, city, isMain);
+            return new AddressRequestDTO(personId, cep, number, publicPlace, city, isMain);
         }
     }
 }
