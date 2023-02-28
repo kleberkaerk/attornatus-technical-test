@@ -1,11 +1,14 @@
 package com.attornatustechnicaltest.handler;
 
+import com.attornatustechnicaltest.exception.NonExistentPersonException;
 import com.attornatustechnicaltest.exception_response.MethodArgumentNotValidExceptionDetails;
+import com.attornatustechnicaltest.exception_response.NonExistentPersonExceptionDetails;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -13,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.Objects;
 
 @RestControllerAdvice
-public class ExceptionHandler extends ResponseEntityExceptionHandler {
+public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
@@ -30,5 +33,13 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler
+    @ExceptionHandler(NonExistentPersonException.class)
+    public ResponseEntity<NonExistentPersonExceptionDetails> handleNonExistentPerson(NonExistentPersonException ex) {
+
+        return new ResponseEntity<>(
+                NonExistentPersonExceptionDetails.NonExistentPersonExceptionDetailsBuilder.builder()
+                        .message(ex.getMessage())
+                        .build(),
+                HttpStatus.NOT_FOUND);
+    }
 }
