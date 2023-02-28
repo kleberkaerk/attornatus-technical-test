@@ -29,4 +29,6 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
                         .build(),
                 HttpStatus.BAD_REQUEST);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler
 }
