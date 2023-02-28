@@ -4,6 +4,7 @@ import com.attornatustechnicaltest.domain.Person;
 
 import java.util.Objects;
 
+@SuppressWarnings("ClassCanBeRecord")
 public class AddressResponseDTO {
 
     private final Long id;
@@ -83,7 +84,7 @@ public class AddressResponseDTO {
         private AddressResponseDTOBuilder() {
         }
 
-        public static AddressResponseDTOBuilder anAddressResponseDTO() {
+        public static AddressResponseDTOBuilder builder() {
             return new AddressResponseDTOBuilder();
         }
 
