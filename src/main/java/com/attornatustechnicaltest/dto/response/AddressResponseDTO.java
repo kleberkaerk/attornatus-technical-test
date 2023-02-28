@@ -4,21 +4,19 @@ import com.attornatustechnicaltest.domain.Person;
 
 import java.util.Objects;
 
-@SuppressWarnings("ClassCanBeRecord")
 public class AddressResponseDTO {
 
     private final Long id;
-    private final String cpf;
+    private final String cep;
     private final String number;
     private final String publicPlace;
     private final String city;
     private final boolean isMain;
     private final Person person;
 
-    public AddressResponseDTO(Long id, String cpf, String number, String publicPlace, String city, boolean isMain, Person person) {
-
+    private AddressResponseDTO(Long id, String cep, String number, String publicPlace, String city, boolean isMain, Person person) {
         this.id = id;
-        this.cpf = cpf;
+        this.cep = cep;
         this.number = number;
         this.publicPlace = publicPlace;
         this.city = city;
@@ -30,8 +28,8 @@ public class AddressResponseDTO {
         return id;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCep() {
+        return cep;
     }
 
     public String getNumber() {
@@ -61,20 +59,21 @@ public class AddressResponseDTO {
         AddressResponseDTO that = (AddressResponseDTO) o;
         return isMain == that.isMain &&
                 Objects.equals(id, that.id) &&
-                Objects.equals(cpf, that.cpf) &&
+                Objects.equals(cep, that.cep) &&
                 Objects.equals(number, that.number) &&
                 Objects.equals(publicPlace, that.publicPlace) &&
-                Objects.equals(city, that.city) && Objects.equals(person, that.person);
+                Objects.equals(city, that.city) &&
+                Objects.equals(person, that.person);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, cpf, number, publicPlace, city, isMain, person);
+        return Objects.hash(id, cep, number, publicPlace, city, isMain, person);
     }
 
     public static final class AddressResponseDTOBuilder {
         private Long id;
-        private String cpf;
+        private String cep;
         private String number;
         private String publicPlace;
         private String city;
@@ -93,8 +92,8 @@ public class AddressResponseDTO {
             return this;
         }
 
-        public AddressResponseDTOBuilder cpf(String cpf) {
-            this.cpf = cpf;
+        public AddressResponseDTOBuilder cep(String cep) {
+            this.cep = cep;
             return this;
         }
 
@@ -124,7 +123,7 @@ public class AddressResponseDTO {
         }
 
         public AddressResponseDTO build() {
-            return new AddressResponseDTO(id, cpf, number, publicPlace, city, isMain, person);
+            return new AddressResponseDTO(id, cep, number, publicPlace, city, isMain, person);
         }
     }
 }
