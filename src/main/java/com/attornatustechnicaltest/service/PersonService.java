@@ -8,6 +8,8 @@ import com.attornatustechnicaltest.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PersonService {
 
@@ -26,5 +28,10 @@ public class PersonService {
         Person savedPerson = this.personRepository.save(personToBeSaved);
 
         return Mapper.fromPersonToPersonResponseDTO(savedPerson);
+    }
+
+    protected Optional<Person> findOptionalPersonById(Long personId) {
+
+        return this.personRepository.findById(personId);
     }
 }
