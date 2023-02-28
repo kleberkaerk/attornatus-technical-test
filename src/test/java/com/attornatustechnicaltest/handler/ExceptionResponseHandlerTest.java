@@ -15,10 +15,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.context.request.WebRequest;
 
 @ExtendWith(SpringExtension.class)
-class ExceptionHandlerTest {
+class ExceptionResponseHandlerTest {
 
     @InjectMocks
-    private ExceptionHandler exceptionHandler;
+    private ExceptionResponseHandler exceptionResponseHandler;
 
     @Mock
     MethodArgumentNotValidException methodArgumentNotValidException;
@@ -57,7 +57,7 @@ class ExceptionHandlerTest {
     @Test
     void handleMethodArgumentNotValid_returnsAResponseEntityWithAMethodArgumentNotValidExceptionDetailsObjectAndAStatusCodeBadRequest_wheneverCalled() {
 
-        ResponseEntity<Object> responseEntityHandleMethodArgumentNotValid = this.exceptionHandler.handleMethodArgumentNotValid(
+        ResponseEntity<Object> responseEntityHandleMethodArgumentNotValid = this.exceptionResponseHandler.handleMethodArgumentNotValid(
                 this.methodArgumentNotValidException,
                 this.httpHeaders,
                 HttpStatusCode.valueOf(400),
