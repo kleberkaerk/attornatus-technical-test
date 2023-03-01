@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
-public class PersonRequestDTO {
+public class PersonRequestPost {
 
     @Pattern(regexp = "[a-zA-ZçÇáÁéÉíÍóÓúÚãÃõÕâÂêÊîÎôÔûÛ\\s]+", message = "Nome inválido, por favor verifique seu nome e tente novamente.")
     private final String name;
@@ -12,7 +12,7 @@ public class PersonRequestDTO {
     @Pattern(regexp = "\\d{2}-\\d{2}-\\d{4}", message = "Data de nascimento inválida, por favor insira sua data de nascimento no formato dd-mm-aaaa.")
     private final String dateOfBirth;
 
-    private PersonRequestDTO(String name, String dateOfBirth) {
+    private PersonRequestPost(String name, String dateOfBirth) {
 
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -30,7 +30,7 @@ public class PersonRequestDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PersonRequestDTO that = (PersonRequestDTO) o;
+        PersonRequestPost that = (PersonRequestPost) o;
         return Objects.equals(name, that.name) && Objects.equals(dateOfBirth, that.dateOfBirth);
     }
 
@@ -39,31 +39,31 @@ public class PersonRequestDTO {
         return Objects.hash(name, dateOfBirth);
     }
 
-    public static final class PersonRequestDTOBuilder {
+    public static final class PersonRequestPostBuilder {
         private String name;
         private String dateOfBirth;
 
-        private PersonRequestDTOBuilder() {
+        private PersonRequestPostBuilder() {
         }
 
-        public static PersonRequestDTOBuilder builder() {
+        public static PersonRequestPostBuilder builder() {
 
-            return new PersonRequestDTOBuilder();
+            return new PersonRequestPostBuilder();
         }
 
-        public PersonRequestDTOBuilder name(String name) {
+        public PersonRequestPostBuilder name(String name) {
             this.name = name;
             return this;
         }
 
-        public PersonRequestDTOBuilder dateOfBirth(String dateOfBirth) {
+        public PersonRequestPostBuilder dateOfBirth(String dateOfBirth) {
             this.dateOfBirth = dateOfBirth;
             return this;
         }
 
-        public PersonRequestDTO build() {
+        public PersonRequestPost build() {
 
-            return new PersonRequestDTO(name, dateOfBirth);
+            return new PersonRequestPost(name, dateOfBirth);
         }
     }
 }
