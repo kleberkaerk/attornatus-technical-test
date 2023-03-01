@@ -4,7 +4,7 @@ import com.attornatustechnicaltest.domain.Person;
 
 import java.util.Objects;
 
-public class AddressResponseDTO {
+public class AddressResponse {
 
     private final Long id;
     private final String cep;
@@ -14,7 +14,7 @@ public class AddressResponseDTO {
     private final boolean isMain;
     private final Person person;
 
-    private AddressResponseDTO(Long id, String cep, String number, String publicPlace, String city, boolean isMain, Person person) {
+    private AddressResponse(Long id, String cep, String number, String publicPlace, String city, boolean isMain, Person person) {
         this.id = id;
         this.cep = cep;
         this.number = number;
@@ -56,7 +56,7 @@ public class AddressResponseDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddressResponseDTO that = (AddressResponseDTO) o;
+        AddressResponse that = (AddressResponse) o;
         return isMain == that.isMain &&
                 Objects.equals(id, that.id) &&
                 Objects.equals(cep, that.cep) &&
@@ -71,7 +71,7 @@ public class AddressResponseDTO {
         return Objects.hash(id, cep, number, publicPlace, city, isMain, person);
     }
 
-    public static final class AddressResponseDTOBuilder {
+    public static final class AddressResponseBuilder {
         private Long id;
         private String cep;
         private String number;
@@ -80,50 +80,50 @@ public class AddressResponseDTO {
         private boolean isMain;
         private Person person;
 
-        private AddressResponseDTOBuilder() {
+        private AddressResponseBuilder() {
         }
 
-        public static AddressResponseDTOBuilder builder() {
-            return new AddressResponseDTOBuilder();
+        public static AddressResponseBuilder builder() {
+            return new AddressResponseBuilder();
         }
 
-        public AddressResponseDTOBuilder id(Long id) {
+        public AddressResponseBuilder id(Long id) {
             this.id = id;
             return this;
         }
 
-        public AddressResponseDTOBuilder cep(String cep) {
+        public AddressResponseBuilder cep(String cep) {
             this.cep = cep;
             return this;
         }
 
-        public AddressResponseDTOBuilder number(String number) {
+        public AddressResponseBuilder number(String number) {
             this.number = number;
             return this;
         }
 
-        public AddressResponseDTOBuilder publicPlace(String publicPlace) {
+        public AddressResponseBuilder publicPlace(String publicPlace) {
             this.publicPlace = publicPlace;
             return this;
         }
 
-        public AddressResponseDTOBuilder city(String city) {
+        public AddressResponseBuilder city(String city) {
             this.city = city;
             return this;
         }
 
-        public AddressResponseDTOBuilder isMain(boolean isMain) {
+        public AddressResponseBuilder isMain(boolean isMain) {
             this.isMain = isMain;
             return this;
         }
 
-        public AddressResponseDTOBuilder person(Person person) {
+        public AddressResponseBuilder person(Person person) {
             this.person = person;
             return this;
         }
 
-        public AddressResponseDTO build() {
-            return new AddressResponseDTO(id, cep, number, publicPlace, city, isMain, person);
+        public AddressResponse build() {
+            return new AddressResponse(id, cep, number, publicPlace, city, isMain, person);
         }
     }
 }
