@@ -8,10 +8,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -76,7 +73,7 @@ class AddressControllerTest {
     }
 
     @Test
-    void updateMainAddress_() {
+    void updateMainAddress_ReturnsAStatusCodeNoContent_wheneverCalled() {
 
         Assertions.assertThatCode(() -> this.addressController.updateMainAddress(1L, 1L))
                 .doesNotThrowAnyException();
@@ -84,5 +81,8 @@ class AddressControllerTest {
         Assertions.assertThat(this.addressController.updateMainAddress(1L, 1L))
                 .isNotNull()
                 .isEqualTo(new ResponseEntity<>(HttpStatus.NO_CONTENT));
+
+        Mockito.verify(this.addressService, Mockito.times(2))
+                .updateMainAddress(ArgumentMatchers.any(Long.class), ArgumentMatchers.any(Long.class));
     }
 }
