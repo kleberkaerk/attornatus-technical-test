@@ -2,48 +2,48 @@ package com.attornatustechnicaltest.util;
 
 import com.attornatustechnicaltest.domain.Address;
 import com.attornatustechnicaltest.domain.Person;
-import com.attornatustechnicaltest.dto.request.AddressRequestDTO;
-import com.attornatustechnicaltest.dto.request.PersonRequestDTO;
-import com.attornatustechnicaltest.dto.response.AddressResponseDTO;
-import com.attornatustechnicaltest.dto.response.PersonResponseDTO;
+import com.attornatustechnicaltest.dto.request.AddressRequestPost;
+import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.response.AddressResponse;
+import com.attornatustechnicaltest.dto.response.PersonResponse;
 
 public class Mapper {
 
     private Mapper() {
     }
 
-    public static Person fromPersonRequestDTOToPerson(PersonRequestDTO personRequestDTO) {
+    public static Person fromPersonRequestPostToPerson(PersonRequestPost personRequestPost) {
 
         return Person.PersonBuilder.builder()
-                .name(personRequestDTO.getName())
-                .dateOfBirth(personRequestDTO.getDateOfBirth())
+                .name(personRequestPost.getName())
+                .dateOfBirth(personRequestPost.getDateOfBirth())
                 .build();
     }
 
-    public static PersonResponseDTO fromPersonToPersonResponseDTO(Person person) {
+    public static PersonResponse fromPersonToPersonResponse(Person person) {
 
-        return PersonResponseDTO.PersonResponseDTOBuilder.builder()
+        return PersonResponse.PersonResponseBuilder.builder()
                 .id(person.getId())
                 .name(person.getName())
                 .dateOfBirth(person.getDateOfBirth())
                 .build();
     }
 
-    public static Address fromAddressRequestDTOToAddress(AddressRequestDTO addressRequestDTO, Person person) {
+    public static Address fromAddressRequestPostToAddress(AddressRequestPost addressRequestPost, Person person) {
 
         return Address.AddressBuilder.builder()
-                .cep(addressRequestDTO.getCep())
-                .number(addressRequestDTO.getNumber())
-                .publicPlace(addressRequestDTO.getPublicPlace())
-                .city(addressRequestDTO.getCity())
-                .isMain(addressRequestDTO.isMain())
+                .cep(addressRequestPost.getCep())
+                .number(addressRequestPost.getNumber())
+                .publicPlace(addressRequestPost.getPublicPlace())
+                .city(addressRequestPost.getCity())
+                .isMain(addressRequestPost.isMain())
                 .person(person)
                 .build();
     }
 
-    public static AddressResponseDTO fromAddressToAddressResponseDTO(Address address) {
+    public static AddressResponse fromAddressToAddressResponse(Address address) {
 
-        return AddressResponseDTO.AddressResponseDTOBuilder.builder()
+        return AddressResponse.AddressResponseBuilder.builder()
                 .id(address.getId())
                 .cep(address.getCep())
                 .number(address.getNumber())
