@@ -4,6 +4,7 @@ import com.attornatustechnicaltest.domain.Address;
 import com.attornatustechnicaltest.domain.Person;
 import com.attornatustechnicaltest.dto.request.AddressRequestPost;
 import com.attornatustechnicaltest.dto.response.AddressResponse;
+import com.attornatustechnicaltest.exception.AddressNotFoundException;
 import com.attornatustechnicaltest.exception.NonExistentPersonException;
 import com.attornatustechnicaltest.repository.AddressRepository;
 import org.assertj.core.api.Assertions;
@@ -30,6 +31,7 @@ class AddressServiceTest {
     private AddressResponse addressResponseToComparisonInRegisterAddress1;
     private List<Address> addressesFindByPerson;
     private AddressResponse addressResponseToComparisonInRegisterAddress2;
+    private Address addressFindByPersonAndId;
 
     void setPersonFindOptionalPersonById() {
 
@@ -99,6 +101,19 @@ class AddressServiceTest {
                 .build();
     }
 
+    void setAddressFindByPersonAndId() {
+
+        this.addressFindByPersonAndId = Address.AddressBuilder.builder()
+                .id(1L)
+                .cep("11111-111")
+                .number("1")
+                .publicPlace("public place1")
+                .city("city1")
+                .isMain(false)
+                .person(this.personFindOptionalPersonById)
+                .build();
+    }
+
     @BeforeEach
     void initializeObjects() {
 
@@ -106,6 +121,7 @@ class AddressServiceTest {
         this.setAddressResponseToComparisonInRegisterAddress1();
         this.setAddressesFindByPerson();
         this.setAddressResponseToComparisonInRegisterAddress2();
+        this.setAddressFindByPersonAndId();
     }
 
     @BeforeEach
@@ -119,6 +135,18 @@ class AddressServiceTest {
 
         BDDMockito.doNothing()
                 .when(this.addressRepository).updateIsMainById(ArgumentMatchers.anyBoolean(), ArgumentMatchers.any(Long.class));
+
+        BDDMockito.when(this.addressRepository.findByPersonAndId(
+                        ArgumentMatchers.any(Person.class),
+                        ArgumentMatchers.any(Long.class)
+                ))
+                .thenReturn(Optional.of(this.addressFindByPersonAndId));
+
+        BDDMockito.doNothing()
+                .when(this.addressRepository).updateIsMainByPersonAndId(
+                        ArgumentMatchers.anyBoolean(),
+                        ArgumentMatchers.any(Person.class),
+                        ArgumentMatchers.any(Long.class));
     }
 
     @Test
@@ -211,5 +239,48 @@ class AddressServiceTest {
                 ArgumentMatchers.anyBoolean(),
                 ArgumentMatchers.any()
         );
+    }
+
+    @Test
+    void updateMainAddress_throwAnNonExistentPersonException_whenThereIsNoPersonInTheDatabaseWithAnIdEqualToTheValueOfThePersonIdArgument() {
+
+        BDDMockito.when(this.personService.findOptionalPersonById(ArgumentMatchers.any(Long.class)))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThatExceptionOfType(NonExistentPersonException.class)
+                .isThrownBy(() -> this.addressService.updateMainAddress(2L, 1L));
+    }
+
+    @Test
+    void updateMainAddress_throwAnAddressNotFoundException_whenTheAddressDoesNotExistOrDoesNotBelongToThePerson() {
+
+        BDDMockito.when(this.addressRepository.findByPersonAndId(
+                        ArgumentMatchers.any(Person.class),
+                        ArgumentMatchers.any(Long.class)
+                ))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThatExceptionOfType(AddressNotFoundException.class)
+                .isThrownBy(() -> this.addressService.updateMainAddress(1L, 2L));
+    }
+
+    @Test
+    void updateMainAddress_checksIfThereIsAnotherPersonAddressWithTrueIsMainPropertyAndIfThereIsAnAddressWithTrueIsMainPropertySetsItToFalseAndUpdatesTheIsMainPropertyToTrueFromAddressWhoseIdIsEqualToTheAddressIdArgument_whenPersonIdAndAddressIdParametersAreValid() {
+
+        Assertions.assertThatCode(() -> this.addressService.updateMainAddress(1L, 1L))
+                .doesNotThrowAnyException();
+
+        Mockito.verify(this.addressRepository, Mockito.times(1))
+                .findByPerson(ArgumentMatchers.any(Person.class));
+
+        Mockito.verify(this.addressRepository, Mockito.times(1))
+                .updateIsMainById(ArgumentMatchers.anyBoolean(), ArgumentMatchers.any(Long.class));
+
+        Mockito.verify(this.addressRepository, Mockito.times(1))
+                .updateIsMainByPersonAndId(
+                        ArgumentMatchers.anyBoolean(),
+                        ArgumentMatchers.any(Person.class),
+                        ArgumentMatchers.any(Long.class)
+                );
     }
 }
