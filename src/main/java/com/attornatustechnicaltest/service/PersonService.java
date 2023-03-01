@@ -1,8 +1,8 @@
 package com.attornatustechnicaltest.service;
 
 import com.attornatustechnicaltest.domain.Person;
-import com.attornatustechnicaltest.dto.request.PersonRequestDTO;
-import com.attornatustechnicaltest.dto.response.PersonResponseDTO;
+import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.response.PersonResponse;
 import com.attornatustechnicaltest.repository.PersonRepository;
 import com.attornatustechnicaltest.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +21,13 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public PersonResponseDTO registerPerson(PersonRequestDTO personRequestDTO) {
+    public PersonResponse registerPerson(PersonRequestPost personRequestPost) {
 
-        Person personToBeSaved = Mapper.fromPersonRequestDTOToPerson(personRequestDTO);
+        Person personToBeSaved = Mapper.fromPersonRequestPostToPerson(personRequestPost);
 
         Person savedPerson = this.personRepository.save(personToBeSaved);
 
-        return Mapper.fromPersonToPersonResponseDTO(savedPerson);
+        return Mapper.fromPersonToPersonResponse(savedPerson);
     }
 
     protected Optional<Person> findOptionalPersonById(Long personId) {
