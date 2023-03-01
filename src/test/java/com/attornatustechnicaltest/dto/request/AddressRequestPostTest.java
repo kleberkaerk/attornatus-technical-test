@@ -4,15 +4,15 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AddressRequestDTOTest {
+class AddressRequestPostTest {
 
-    private AddressRequestDTO addressRequestDTO;
-    private AddressRequestDTO sameAddressRequestDTO;
-    private AddressRequestDTO differentAddressRequestDTO;
+    private AddressRequestPost addressRequestPost;
+    private AddressRequestPost sameAddressRequestPost;
+    private AddressRequestPost differentAddressRequestPost;
 
-    void setAddressRequestDTO() {
+    void setAddressRequestPost() {
 
-        this.addressRequestDTO = AddressRequestDTO.AddressRequestDTOBuilder.builder()
+        this.addressRequestPost = AddressRequestPost.AddressRequestPostBuilder.builder()
                 .personId(1L)
                 .cep("11111-111")
                 .number("1")
@@ -22,9 +22,9 @@ class AddressRequestDTOTest {
                 .build();
     }
 
-    void setSameAddressRequestDTO() {
+    void setSameAddressRequestPost() {
 
-        this.sameAddressRequestDTO = AddressRequestDTO.AddressRequestDTOBuilder.builder()
+        this.sameAddressRequestPost = AddressRequestPost.AddressRequestPostBuilder.builder()
                 .personId(1L)
                 .cep("11111-111")
                 .number("1")
@@ -34,9 +34,9 @@ class AddressRequestDTOTest {
                 .build();
     }
 
-    void setDifferentAddressRequestDTO() {
+    void setDifferentAddressRequestPost() {
 
-        this.differentAddressRequestDTO = AddressRequestDTO.AddressRequestDTOBuilder.builder()
+        this.differentAddressRequestPost = AddressRequestPost.AddressRequestPostBuilder.builder()
                 .personId(2L)
                 .cep("22222-222")
                 .number("2")
@@ -49,65 +49,65 @@ class AddressRequestDTOTest {
     @BeforeEach
     void initializeObjects() {
 
-        this.setAddressRequestDTO();
-        this.setSameAddressRequestDTO();
-        this.setDifferentAddressRequestDTO();
+        this.setAddressRequestPost();
+        this.setSameAddressRequestPost();
+        this.setDifferentAddressRequestPost();
     }
 
     @Test
     void getPersonId() {
 
-        Assertions.assertThat(this.addressRequestDTO.getPersonId())
+        Assertions.assertThat(this.addressRequestPost.getPersonId())
                 .isEqualTo(1L);
     }
 
     @Test
     void getCep() {
 
-        Assertions.assertThat(this.addressRequestDTO.getCep())
+        Assertions.assertThat(this.addressRequestPost.getCep())
                 .isEqualTo("11111-111");
     }
 
     @Test
     void getNumber() {
 
-        Assertions.assertThat(this.addressRequestDTO.getNumber())
+        Assertions.assertThat(this.addressRequestPost.getNumber())
                 .isEqualTo("1");
     }
 
     @Test
     void getPublicPlace() {
 
-        Assertions.assertThat(this.addressRequestDTO.getPublicPlace())
+        Assertions.assertThat(this.addressRequestPost.getPublicPlace())
                 .isEqualTo("public place1");
     }
 
     @Test
     void getCity() {
 
-        Assertions.assertThat(this.addressRequestDTO.getCity())
+        Assertions.assertThat(this.addressRequestPost.getCity())
                 .isEqualTo("city1");
     }
 
     @Test
     void isMain() {
 
-        Assertions.assertThat(this.addressRequestDTO.isMain())
+        Assertions.assertThat(this.addressRequestPost.isMain())
                 .isTrue();
     }
 
     @Test
     void testEquals() {
 
-        Assertions.assertThat(this.addressRequestDTO)
-                .isEqualTo(this.sameAddressRequestDTO)
-                .isNotEqualTo(this.differentAddressRequestDTO);
+        Assertions.assertThat(this.addressRequestPost)
+                .isEqualTo(this.sameAddressRequestPost)
+                .isNotEqualTo(this.differentAddressRequestPost);
     }
 
     @Test
     void testHashCode() {
 
-        Assertions.assertThat(this.addressRequestDTO)
-                .hasSameHashCodeAs(this.sameAddressRequestDTO);
+        Assertions.assertThat(this.addressRequestPost)
+                .hasSameHashCodeAs(this.sameAddressRequestPost);
     }
 }
