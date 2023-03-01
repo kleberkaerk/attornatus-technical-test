@@ -2,42 +2,42 @@ package com.attornatustechnicaltest.util;
 
 import com.attornatustechnicaltest.domain.Address;
 import com.attornatustechnicaltest.domain.Person;
-import com.attornatustechnicaltest.dto.request.AddressRequestDTO;
-import com.attornatustechnicaltest.dto.request.PersonRequestDTO;
-import com.attornatustechnicaltest.dto.response.AddressResponseDTO;
-import com.attornatustechnicaltest.dto.response.PersonResponseDTO;
+import com.attornatustechnicaltest.dto.request.AddressRequestPost;
+import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.response.AddressResponse;
+import com.attornatustechnicaltest.dto.response.PersonResponse;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MapperTest {
 
-    private Person personToComparisonInFromPersonRequestDTOToPerson;
-    private PersonResponseDTO personResponseDTOToComparisonInFromPersonToPersonResponseDTO;
-    private Address addressToComparisonInFromAddressRequestDTOToAddress;
-    private AddressResponseDTO addressResponseDTOToComparisonInFromAddressToAddressResponseDTO;
+    private Person personToComparisonInFromPersonRequestPostToPerson;
+    private PersonResponse personResponseToComparisonInFromPersonToPersonResponse;
+    private Address addressToComparisonInFromAddressRequestPostToAddress;
+    private AddressResponse addressResponseToComparisonInFromAddressToAddressResponse;
 
-    void setPersonToComparisonInFromPersonRequestDTOToPerson() {
+    void setPersonToComparisonInFromPersonRequestPostToPerson() {
 
-        this.personToComparisonInFromPersonRequestDTOToPerson = Person.PersonBuilder.builder()
+        this.personToComparisonInFromPersonRequestPostToPerson = Person.PersonBuilder.builder()
                 .name("name1")
                 .dateOfBirth("01-01-2001")
                 .build();
     }
 
-    void setPersonResponseDTOToComparisonInFromPersonToPersonResponseDTO() {
+    void setPersonResponseToComparisonInFromPersonToPersonResponse() {
 
-        this.personResponseDTOToComparisonInFromPersonToPersonResponseDTO =
-                PersonResponseDTO.PersonResponseDTOBuilder.builder()
+        this.personResponseToComparisonInFromPersonToPersonResponse =
+                PersonResponse.PersonResponseBuilder.builder()
                         .id(1L)
                         .name("name1")
                         .dateOfBirth("01-01-2001")
                         .build();
     }
 
-    void setAddressToComparisonInFromAddressRequestDTOToAddress() {
+    void setAddressToComparisonInFromAddressRequestPostToAddress() {
 
-        this.addressToComparisonInFromAddressRequestDTOToAddress = Address.AddressBuilder.builder()
+        this.addressToComparisonInFromAddressRequestPostToAddress = Address.AddressBuilder.builder()
                 .cep("11111-111")
                 .number("1")
                 .publicPlace("public place1")
@@ -51,10 +51,10 @@ class MapperTest {
                 .build();
     }
 
-    void setAddressResponseDTOToComparisonInFromAddressToAddressResponseDTO() {
+    void setAddressResponseToComparisonInFromAddressToAddressResponse() {
 
-        this.addressResponseDTOToComparisonInFromAddressToAddressResponseDTO =
-                AddressResponseDTO.AddressResponseDTOBuilder.builder()
+        this.addressResponseToComparisonInFromAddressToAddressResponse =
+                AddressResponse.AddressResponseBuilder.builder()
                 .id(1L)
                 .cep("22222-222")
                 .number("2")
@@ -72,27 +72,27 @@ class MapperTest {
     @BeforeEach
     void initializeObjects() {
 
-        this.setPersonToComparisonInFromPersonRequestDTOToPerson();
-        this.setPersonResponseDTOToComparisonInFromPersonToPersonResponseDTO();
-        this.setAddressToComparisonInFromAddressRequestDTOToAddress();
-        this.setAddressResponseDTOToComparisonInFromAddressToAddressResponseDTO();
+        this.setPersonToComparisonInFromPersonRequestPostToPerson();
+        this.setPersonResponseToComparisonInFromPersonToPersonResponse();
+        this.setAddressToComparisonInFromAddressRequestPostToAddress();
+        this.setAddressResponseToComparisonInFromAddressToAddressResponse();
     }
 
     @Test
-    void fromPersonRequestDTOToPerson_mapsFromPersonRequestDTOToPerson_wheneverCalled() {
+    void fromPersonRequestPostToPerson_mapsFromPersonRequestPostToPerson_wheneverCalled() {
 
-        PersonRequestDTO personRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder()
+        PersonRequestPost personRequestPost = PersonRequestPost.PersonRequestPostBuilder.builder()
                 .name("name1")
                 .dateOfBirth("01-01-2001")
                 .build();
 
-        Assertions.assertThat(Mapper.fromPersonRequestDTOToPerson(personRequestDTO))
+        Assertions.assertThat(Mapper.fromPersonRequestPostToPerson(personRequestPost))
                 .isNotNull()
-                .isEqualTo(this.personToComparisonInFromPersonRequestDTOToPerson);
+                .isEqualTo(this.personToComparisonInFromPersonRequestPostToPerson);
     }
 
     @Test
-    void fromPersonToPersonResponseDTO_mapsFromPersonToPersonResponseDTO_wheneverCalled() {
+    void fromPersonToPersonResponse_mapsFromPersonToPersonResponse_wheneverCalled() {
 
         Person person = Person.PersonBuilder.builder()
                 .id(1L)
@@ -100,13 +100,13 @@ class MapperTest {
                 .dateOfBirth("01-01-2001")
                 .build();
 
-        Assertions.assertThat(Mapper.fromPersonToPersonResponseDTO(person))
+        Assertions.assertThat(Mapper.fromPersonToPersonResponse(person))
                 .isNotNull()
-                .isEqualTo(this.personResponseDTOToComparisonInFromPersonToPersonResponseDTO);
+                .isEqualTo(this.personResponseToComparisonInFromPersonToPersonResponse);
     }
 
     @Test
-    void fromAddressRequestDTOToAddress_mapsFromAddressRequestDTOToAddress_wheneverCalled() {
+    void fromAddressRequestPostToAddress_mapsFromAddressRequestPostToAddress_wheneverCalled() {
 
         Person person = Person.PersonBuilder.builder()
                 .id(1L)
@@ -114,7 +114,7 @@ class MapperTest {
                 .dateOfBirth("01-01-2001")
                 .build();
 
-        AddressRequestDTO addressRequestDTO = AddressRequestDTO.AddressRequestDTOBuilder.builder()
+        AddressRequestPost addressRequestPost = AddressRequestPost.AddressRequestPostBuilder.builder()
                 .personId(1L)
                 .cep("11111-111")
                 .number("1")
@@ -123,13 +123,13 @@ class MapperTest {
                 .isMain(true)
                 .build();
 
-        Assertions.assertThat(Mapper.fromAddressRequestDTOToAddress(addressRequestDTO, person))
+        Assertions.assertThat(Mapper.fromAddressRequestPostToAddress(addressRequestPost, person))
                 .isNotNull()
-                .isEqualTo(this.addressToComparisonInFromAddressRequestDTOToAddress);
+                .isEqualTo(this.addressToComparisonInFromAddressRequestPostToAddress);
     }
 
     @Test
-    void fromAddressToAddressResponseDTO_mapsFromAddressToAddressResponseDTO_wheneverCalled() {
+    void fromAddressToAddressResponse_mapsFromAddressToAddressResponse_wheneverCalled() {
 
         Address address = Address.AddressBuilder.builder()
                 .id(1L)
@@ -145,8 +145,8 @@ class MapperTest {
                         .build())
                 .build();
 
-        Assertions.assertThat(Mapper.fromAddressToAddressResponseDTO(address))
+        Assertions.assertThat(Mapper.fromAddressToAddressResponse(address))
                 .isNotNull()
-                .isEqualTo(this.addressResponseDTOToComparisonInFromAddressToAddressResponseDTO);
+                .isEqualTo(this.addressResponseToComparisonInFromAddressToAddressResponse);
     }
 }
