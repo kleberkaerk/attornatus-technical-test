@@ -26,4 +26,12 @@ public class AddressController {
 
         return new ResponseEntity<>(this.addressService.registerAddress(addressRequestPost), HttpStatus.CREATED);
     }
+
+    @PutMapping(value = "{personId}/{addressId}")
+    public ResponseEntity<Void> updateMainAddress(@PathVariable Long personId, @PathVariable Long addressId) {
+
+        this.addressService.updateMainAddress(personId, addressId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
