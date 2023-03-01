@@ -1,6 +1,8 @@
 package com.attornatustechnicaltest.handler;
 
+import com.attornatustechnicaltest.exception.NonExistentPersonException;
 import com.attornatustechnicaltest.exception_response.MethodArgumentNotValidExceptionDetails;
+import com.attornatustechnicaltest.exception_response.NonExistentPersonExceptionDetails;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,16 +20,16 @@ import org.springframework.web.context.request.WebRequest;
 class ExceptionResponseHandlerTest {
 
     @InjectMocks
-    private ExceptionResponseHandler exceptionResponseHandler;
-
+    private ExceptionResponseHandler exceptionResponseHandler = new ExceptionResponseHandler();
     @Mock
-    MethodArgumentNotValidException methodArgumentNotValidException;
+    private MethodArgumentNotValidException methodArgumentNotValidException;
     @Mock
-    HttpHeaders httpHeaders;
+    private HttpHeaders httpHeaders;
     @Mock
-    WebRequest webRequest;
+    private WebRequest webRequest;
 
     private MethodArgumentNotValidExceptionDetails methodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid;
+    private ResponseEntity<NonExistentPersonExceptionDetails> responseEntityToComparisonInHandleNonExistentPerson;
 
     void setMethodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid() {
 
@@ -38,10 +40,20 @@ class ExceptionResponseHandlerTest {
                 .build();
     }
 
+    void setResponseEntityToComparisonInHandleNonExistentPerson() {
+
+        this.responseEntityToComparisonInHandleNonExistentPerson = new ResponseEntity<>(
+                NonExistentPersonExceptionDetails.NonExistentPersonExceptionDetailsBuilder.builder()
+                        .message("error message")
+                        .build(),
+                HttpStatus.NOT_FOUND);
+    }
+
     @BeforeEach
     void initializeObjects() {
 
         this.setMethodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid();
+        this.setResponseEntityToComparisonInHandleNonExistentPerson();
     }
 
     @BeforeEach
@@ -68,5 +80,18 @@ class ExceptionResponseHandlerTest {
                 .isEqualTo(new ResponseEntity<>(
                         this.methodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid,
                         HttpStatus.BAD_REQUEST));
+    }
+
+    @Test
+    void handleNonExistentPerson_returnsAResponseEntityWithANonExistentPersonExceptionDetailsObjectAndAStatusCodeNotFound_wheneverCalled() {
+
+        NonExistentPersonException nonExistentPersonException = new NonExistentPersonException("error message");
+
+        Assertions.assertThatCode(() -> this.exceptionResponseHandler.handleNonExistentPerson(nonExistentPersonException))
+                .doesNotThrowAnyException();
+
+        Assertions.assertThat(this.exceptionResponseHandler.handleNonExistentPerson(nonExistentPersonException))
+                .isNotNull()
+                .isEqualTo(this.responseEntityToComparisonInHandleNonExistentPerson);
     }
 }
