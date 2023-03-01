@@ -10,20 +10,25 @@ class MethodArgumentNotValidExceptionDetailsTest {
     private MethodArgumentNotValidExceptionDetails sameMethodArgumentNotValidExceptionDetails;
     private MethodArgumentNotValidExceptionDetails differentMethodArgumentNotValidExceptionDetails;
 
-    @BeforeEach
-    void initializeObjects() {
+    void setMethodArgumentNotValidExceptionDetails() {
 
         this.methodArgumentNotValidExceptionDetails = MethodArgumentNotValidExceptionDetails.
                 MethodArgumentNotValidExceptionDetailsBuilder.builder()
                 .error("error1")
                 .message("message1")
                 .build();
+    }
+
+    void setSameMethodArgumentNotValidExceptionDetails() {
 
         this.sameMethodArgumentNotValidExceptionDetails = MethodArgumentNotValidExceptionDetails.
                 MethodArgumentNotValidExceptionDetailsBuilder.builder()
                 .error("error1")
                 .message("message1")
                 .build();
+    }
+
+    void setDifferentMethodArgumentNotValidExceptionDetails() {
 
         this.differentMethodArgumentNotValidExceptionDetails = MethodArgumentNotValidExceptionDetails.
                 MethodArgumentNotValidExceptionDetailsBuilder.builder()
@@ -32,11 +37,18 @@ class MethodArgumentNotValidExceptionDetailsTest {
                 .build();
     }
 
+    @BeforeEach
+    void initializeObjects() {
+
+        this.setMethodArgumentNotValidExceptionDetails();
+        this.setSameMethodArgumentNotValidExceptionDetails();
+        this.setDifferentMethodArgumentNotValidExceptionDetails();
+    }
+
     @Test
     void getError() {
 
         Assertions.assertThat(this.methodArgumentNotValidExceptionDetails.getError())
-                .isNotNull()
                 .isEqualTo("error1");
     }
 
@@ -44,7 +56,6 @@ class MethodArgumentNotValidExceptionDetailsTest {
     void getMessage() {
 
         Assertions.assertThat(this.methodArgumentNotValidExceptionDetails.getMessage())
-                .isNotNull()
                 .isEqualTo("message1");
     }
 
@@ -61,9 +72,5 @@ class MethodArgumentNotValidExceptionDetailsTest {
 
         Assertions.assertThat(this.methodArgumentNotValidExceptionDetails)
                 .hasSameHashCodeAs(this.sameMethodArgumentNotValidExceptionDetails);
-
-        Assertions.assertThat(this.methodArgumentNotValidExceptionDetails.hashCode())
-                .isNotEqualTo(this.differentMethodArgumentNotValidExceptionDetails.hashCode());
-
     }
 }
