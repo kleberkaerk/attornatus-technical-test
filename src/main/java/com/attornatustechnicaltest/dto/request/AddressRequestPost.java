@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
-public class AddressRequestDTO {
+public class AddressRequestPost {
 
     @NotNull(message = "Id da pessoa inválido, por favor verifique o id da pessoa e tente novamente.")
     private final Long personId;
@@ -23,7 +23,7 @@ public class AddressRequestDTO {
     @JsonProperty("main")
     private final boolean isMain;
 
-    private AddressRequestDTO(Long personId, String cep, String number, String publicPlace, String city, boolean isMain) {
+    private AddressRequestPost(Long personId, String cep, String number, String publicPlace, String city, boolean isMain) {
         this.personId = personId;
         this.cep = cep;
         this.number = number;
@@ -60,7 +60,7 @@ public class AddressRequestDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AddressRequestDTO that = (AddressRequestDTO) o;
+        AddressRequestPost that = (AddressRequestPost) o;
         return isMain == that.isMain && Objects.equals(personId, that.personId) && Objects.equals(cep, that.cep) && Objects.equals(number, that.number) && Objects.equals(publicPlace, that.publicPlace) && Objects.equals(city, that.city);
     }
 
@@ -69,7 +69,7 @@ public class AddressRequestDTO {
         return Objects.hash(personId, cep, number, publicPlace, city, isMain);
     }
 
-    public static final class AddressRequestDTOBuilder {
+    public static final class AddressRequestPostBuilder {
         private Long personId;
         private String cep;
         private String number;
@@ -77,45 +77,45 @@ public class AddressRequestDTO {
         private String city;
         private boolean isMain;
 
-        private AddressRequestDTOBuilder() {
+        private AddressRequestPostBuilder() {
         }
 
-        public static AddressRequestDTOBuilder builder() {
-            return new AddressRequestDTOBuilder();
+        public static AddressRequestPostBuilder builder() {
+            return new AddressRequestPostBuilder();
         }
 
-        public AddressRequestDTOBuilder personId(Long personId) {
+        public AddressRequestPostBuilder personId(Long personId) {
             this.personId = personId;
             return this;
         }
 
-        public AddressRequestDTOBuilder cep(String cep) {
+        public AddressRequestPostBuilder cep(String cep) {
             this.cep = cep;
             return this;
         }
 
-        public AddressRequestDTOBuilder number(String number) {
+        public AddressRequestPostBuilder number(String number) {
             this.number = number;
             return this;
         }
 
-        public AddressRequestDTOBuilder publicPlace(String publicPlace) {
+        public AddressRequestPostBuilder publicPlace(String publicPlace) {
             this.publicPlace = publicPlace;
             return this;
         }
 
-        public AddressRequestDTOBuilder city(String city) {
+        public AddressRequestPostBuilder city(String city) {
             this.city = city;
             return this;
         }
 
-        public AddressRequestDTOBuilder isMain(boolean isMain) {
+        public AddressRequestPostBuilder isMain(boolean isMain) {
             this.isMain = isMain;
             return this;
         }
 
-        public AddressRequestDTO build() {
-            return new AddressRequestDTO(personId, cep, number, publicPlace, city, isMain);
+        public AddressRequestPost build() {
+            return new AddressRequestPost(personId, cep, number, publicPlace, city, isMain);
         }
     }
 }
