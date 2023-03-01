@@ -14,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 @ExtendWith(SpringExtension.class)
 class PersonServiceTest {
 
@@ -25,6 +27,7 @@ class PersonServiceTest {
 
     private Person personSave;
     private PersonResponseDTO personResponseDTOToComparisonInRegisterPerson;
+    private Person personFindById;
 
     void setPersonSave() {
 
@@ -44,11 +47,21 @@ class PersonServiceTest {
                 .build();
     }
 
+    void setPersonFindById() {
+
+        this.personFindById = Person.PersonBuilder.builder()
+                .id(2L)
+                .name("name2")
+                .dateOfBirth("02-02-2002")
+                .build();
+    }
+
     @BeforeEach
     void initializeObjects() {
 
         this.setPersonSave();
         this.setPersonResponseDTOToComparisonInRegisterPerson();
+        this.setPersonFindById();
     }
 
     @BeforeEach
@@ -56,6 +69,9 @@ class PersonServiceTest {
 
         BDDMockito.when(this.personRepository.save(ArgumentMatchers.any(Person.class)))
                 .thenReturn(this.personSave);
+
+        BDDMockito.when(this.personRepository.findById(ArgumentMatchers.any(Long.class)))
+                .thenReturn(Optional.of(this.personFindById));
     }
 
     @Test
@@ -69,5 +85,16 @@ class PersonServiceTest {
         Assertions.assertThat(this.personService.registerPerson(personRequestDTO))
                 .isNotNull()
                 .isEqualTo(this.personResponseDTOToComparisonInRegisterPerson);
+    }
+
+    @Test
+    void findOptionalPersonById_usesThePersonRepositoryToFindPersonByIdAndReturnsAnOptionalPersonFromTheResult_wheneverCalled() {
+
+        Assertions.assertThatCode(() -> this.personService.findOptionalPersonById(2L))
+                .doesNotThrowAnyException();
+
+        Assertions.assertThat(this.personService.findOptionalPersonById(2L))
+                .isNotNull()
+                .contains(this.personFindById);
     }
 }
