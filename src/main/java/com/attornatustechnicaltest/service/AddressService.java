@@ -2,8 +2,8 @@ package com.attornatustechnicaltest.service;
 
 import com.attornatustechnicaltest.domain.Address;
 import com.attornatustechnicaltest.domain.Person;
-import com.attornatustechnicaltest.dto.request.AddressRequestDTO;
-import com.attornatustechnicaltest.dto.response.AddressResponseDTO;
+import com.attornatustechnicaltest.dto.request.AddressRequestPost;
+import com.attornatustechnicaltest.dto.response.AddressResponse;
 import com.attornatustechnicaltest.exception.NonExistentPersonException;
 import com.attornatustechnicaltest.repository.AddressRepository;
 import com.attornatustechnicaltest.util.Mapper;
@@ -36,20 +36,20 @@ public class AddressService {
                 .ifPresent(address -> this.addressRepository.updateIsMainById(false, address.getId()));
     }
 
-    public AddressResponseDTO registerAddress(AddressRequestDTO addressRequestDTO) {
+    public AddressResponse registerAddress(AddressRequestPost addressRequestPost) {
 
-        Person person = this.personService.findOptionalPersonById(addressRequestDTO.getPersonId())
+        Person person = this.personService.findOptionalPersonById(addressRequestPost.getPersonId())
                 .orElseThrow(() -> new NonExistentPersonException("Pessoa inexistente, por favor verifique a pessoa e tente novamente."));
 
-        if (addressRequestDTO.isMain()) {
+        if (addressRequestPost.isMain()) {
 
             this.deactivateAnotherMainAddress(this.addressRepository.findByPerson(person));
         }
 
-        Address addressToBeSaved = Mapper.fromAddressRequestDTOToAddress(addressRequestDTO, person);
+        Address addressToBeSaved = Mapper.fromAddressRequestPostToAddress(addressRequestPost, person);
 
         Address savedAddress = this.addressRepository.save(addressToBeSaved);
 
-        return Mapper.fromAddressToAddressResponseDTO(savedAddress);
+        return Mapper.fromAddressToAddressResponse(savedAddress);
     }
 }
