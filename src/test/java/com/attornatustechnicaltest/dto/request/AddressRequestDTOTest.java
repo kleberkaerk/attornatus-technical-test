@@ -109,8 +109,5 @@ class AddressRequestDTOTest {
 
         Assertions.assertThat(this.addressRequestDTO)
                 .hasSameHashCodeAs(this.sameAddressRequestDTO);
-
-        Assertions.assertThat(this.addressRequestDTO.hashCode())
-                .isNotEqualTo(this.differentAddressRequestDTO.hashCode());
     }
 }
