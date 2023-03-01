@@ -1,8 +1,8 @@
 package com.attornatustechnicaltest.service;
 
 import com.attornatustechnicaltest.domain.Person;
-import com.attornatustechnicaltest.dto.request.PersonRequestDTO;
-import com.attornatustechnicaltest.dto.response.PersonResponseDTO;
+import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.response.PersonResponse;
 import com.attornatustechnicaltest.repository.PersonRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +26,7 @@ class PersonServiceTest {
     private PersonRepository personRepository;
 
     private Person personSave;
-    private PersonResponseDTO personResponseDTOToComparisonInRegisterPerson;
+    private PersonResponse personResponseToComparisonInRegisterPerson;
     private Person personFindById;
 
     void setPersonSave() {
@@ -38,9 +38,9 @@ class PersonServiceTest {
                 .build();
     }
 
-    void setPersonResponseDTOToComparisonInRegisterPerson() {
+    void setPersonResponseToComparisonInRegisterPerson() {
 
-        this.personResponseDTOToComparisonInRegisterPerson = PersonResponseDTO.PersonResponseDTOBuilder.builder()
+        this.personResponseToComparisonInRegisterPerson = PersonResponse.PersonResponseBuilder.builder()
                 .id(1L)
                 .name("name1")
                 .dateOfBirth("01-01-2001")
@@ -60,7 +60,7 @@ class PersonServiceTest {
     void initializeObjects() {
 
         this.setPersonSave();
-        this.setPersonResponseDTOToComparisonInRegisterPerson();
+        this.setPersonResponseToComparisonInRegisterPerson();
         this.setPersonFindById();
     }
 
@@ -75,16 +75,16 @@ class PersonServiceTest {
     }
 
     @Test
-    void registerPerson_mapsPersonRequestDTOToPersonAndUsesThePersonRepositoryToSaveANewPersonAndMapsTheSavedPersonToAPersonResponseDTOaAndReturnsThePersonResponseDTO_wheneverCalled() {
+    void registerPerson_mapsPersonRequestToPersonAndUsesThePersonRepositoryToSaveANewPersonAndMapsTheSavedPersonToAPersonResponseAndReturnsThePersonResponse_wheneverCalled() {
 
-        PersonRequestDTO personRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder().build();
+        PersonRequestPost personRequestPost = PersonRequestPost.PersonRequestPostBuilder.builder().build();
 
-        Assertions.assertThatCode(() -> this.personService.registerPerson(personRequestDTO))
+        Assertions.assertThatCode(() -> this.personService.registerPerson(personRequestPost))
                 .doesNotThrowAnyException();
 
-        Assertions.assertThat(this.personService.registerPerson(personRequestDTO))
+        Assertions.assertThat(this.personService.registerPerson(personRequestPost))
                 .isNotNull()
-                .isEqualTo(this.personResponseDTOToComparisonInRegisterPerson);
+                .isEqualTo(this.personResponseToComparisonInRegisterPerson);
     }
 
     @Test
