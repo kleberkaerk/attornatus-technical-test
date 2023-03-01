@@ -57,6 +57,9 @@ class AddressControllerTest {
 
         BDDMockito.when(this.addressService.registerAddress(ArgumentMatchers.any(AddressRequestPost.class)))
                 .thenReturn(this.addressResponseRegisterAddress);
+
+        BDDMockito.doNothing()
+                .when(this.addressService).updateMainAddress(ArgumentMatchers.any(Long.class), ArgumentMatchers.any(Long.class));
     }
 
     @Test
@@ -70,5 +73,16 @@ class AddressControllerTest {
         Assertions.assertThat(this.addressController.registerAddress(addressRequestPost))
                 .isNotNull()
                 .isEqualTo(new ResponseEntity<>(this.addressResponseRegisterAddress, HttpStatus.CREATED));
+    }
+
+    @Test
+    void updateMainAddress_() {
+
+        Assertions.assertThatCode(() -> this.addressController.updateMainAddress(1L, 1L))
+                .doesNotThrowAnyException();
+
+        Assertions.assertThat(this.addressController.updateMainAddress(1L, 1L))
+                .isNotNull()
+                .isEqualTo(new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 }
