@@ -4,29 +4,29 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PersonRequestDTOTest {
+class PersonRequestPostTest {
 
-    private PersonRequestDTO personRequestDTO;
-    private PersonRequestDTO samePersonRequestDTO;
-    private PersonRequestDTO differentPersonRequestDTO;
+    private PersonRequestPost personRequestPost;
+    private PersonRequestPost samePersonRequestPost;
+    private PersonRequestPost differentPersonRequestPost;
 
-    void setPersonRequestDTO() {
+    void setPersonRequestPost() {
 
-        this.personRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder()
+        this.personRequestPost = PersonRequestPost.PersonRequestPostBuilder.builder()
                 .name("name1")
                 .dateOfBirth("01-01-2000")
                 .build();
     }
-    void setSamePersonRequestDTO() {
+    void setSamePersonRequestPost() {
 
-        this.samePersonRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder()
+        this.samePersonRequestPost = PersonRequestPost.PersonRequestPostBuilder.builder()
                 .name("name1")
                 .dateOfBirth("01-01-2000")
                 .build();
     }
-    void setDifferentPersonRequestDTO() {
+    void setDifferentPersonRequestPost() {
 
-        this.differentPersonRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder()
+        this.differentPersonRequestPost = PersonRequestPost.PersonRequestPostBuilder.builder()
                 .name("name2")
                 .dateOfBirth("02-02-2002")
                 .build();
@@ -35,15 +35,15 @@ class PersonRequestDTOTest {
     @BeforeEach
     void initializeObjects() {
 
-        this.setPersonRequestDTO();
-        this.setSamePersonRequestDTO();
-        this.setDifferentPersonRequestDTO();
+        this.setPersonRequestPost();
+        this.setSamePersonRequestPost();
+        this.setDifferentPersonRequestPost();
     }
 
     @Test
     void getName() {
 
-        Assertions.assertThat(this.personRequestDTO.getName())
+        Assertions.assertThat(this.personRequestPost.getName())
                 .isNotNull()
                 .isEqualTo("name1");
     }
@@ -51,7 +51,7 @@ class PersonRequestDTOTest {
     @Test
     void getDateOfBirth() {
 
-        Assertions.assertThat(this.personRequestDTO.getDateOfBirth())
+        Assertions.assertThat(this.personRequestPost.getDateOfBirth())
                 .isNotNull()
                 .isEqualTo("01-01-2000");
     }
@@ -59,15 +59,15 @@ class PersonRequestDTOTest {
     @Test
     void testEquals() {
 
-        Assertions.assertThat(this.personRequestDTO)
-                .isEqualTo(this.samePersonRequestDTO)
-                .isNotEqualTo(this.differentPersonRequestDTO);
+        Assertions.assertThat(this.personRequestPost)
+                .isEqualTo(this.samePersonRequestPost)
+                .isNotEqualTo(this.differentPersonRequestPost);
     }
 
     @Test
     void testHashCode() {
 
-        Assertions.assertThat(this.personRequestDTO)
-                .hasSameHashCodeAs(this.samePersonRequestDTO);
+        Assertions.assertThat(this.personRequestPost)
+                .hasSameHashCodeAs(this.samePersonRequestPost);
     }
 }
