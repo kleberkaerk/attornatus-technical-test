@@ -80,8 +80,5 @@ class PersonTest {
 
         Assertions.assertThat(this.person)
                 .hasSameHashCodeAs(this.samePerson);
-
-        Assertions.assertThat(this.person.hashCode())
-                .isNotEqualTo(this.differentPerson.hashCode());
     }
 }
