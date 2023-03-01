@@ -1,7 +1,7 @@
 package com.attornatustechnicaltest.controller;
 
-import com.attornatustechnicaltest.dto.request.PersonRequestDTO;
-import com.attornatustechnicaltest.dto.response.PersonResponseDTO;
+import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.response.PersonResponse;
 import com.attornatustechnicaltest.service.PersonService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ public class PersonController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<PersonResponseDTO> registerPerson(@RequestBody @Valid PersonRequestDTO personRequestDTO) {
+    public ResponseEntity<PersonResponse> registerPerson(@RequestBody @Valid PersonRequestPost personRequestPost) {
 
         return new ResponseEntity<>(
-                this.personService.registerPerson(personRequestDTO),
+                this.personService.registerPerson(personRequestPost),
                 HttpStatus.CREATED);
     }
 }
