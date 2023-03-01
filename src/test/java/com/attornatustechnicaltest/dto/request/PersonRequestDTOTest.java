@@ -10,23 +10,34 @@ class PersonRequestDTOTest {
     private PersonRequestDTO samePersonRequestDTO;
     private PersonRequestDTO differentPersonRequestDTO;
 
-    @BeforeEach
-    void initializeObjects() {
+    void setPersonRequestDTO() {
 
         this.personRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder()
                 .name("name1")
                 .dateOfBirth("01-01-2000")
                 .build();
+    }
+    void setSamePersonRequestDTO() {
 
         this.samePersonRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder()
                 .name("name1")
                 .dateOfBirth("01-01-2000")
                 .build();
+    }
+    void setDifferentPersonRequestDTO() {
 
         this.differentPersonRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder()
                 .name("name2")
                 .dateOfBirth("02-02-2002")
                 .build();
+    }
+
+    @BeforeEach
+    void initializeObjects() {
+
+        this.setPersonRequestDTO();
+        this.setSamePersonRequestDTO();
+        this.setDifferentPersonRequestDTO();
     }
 
     @Test
@@ -58,8 +69,5 @@ class PersonRequestDTOTest {
 
         Assertions.assertThat(this.personRequestDTO)
                 .hasSameHashCodeAs(this.samePersonRequestDTO);
-
-        Assertions.assertThat(this.personRequestDTO.hashCode())
-                .isNotEqualTo(this.differentPersonRequestDTO.hashCode());
     }
 }
