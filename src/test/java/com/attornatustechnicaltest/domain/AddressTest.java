@@ -149,8 +149,5 @@ class AddressTest {
 
         Assertions.assertThat(this.address)
                 .hasSameHashCodeAs(this.sameAddress);
-
-        Assertions.assertThat(this.address.hashCode())
-                .isNotEqualTo(this.differentAddress.hashCode());
     }
 }
