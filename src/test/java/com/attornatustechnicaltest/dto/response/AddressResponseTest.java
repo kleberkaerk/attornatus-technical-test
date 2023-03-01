@@ -5,12 +5,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AddressResponseDTOTest {
+class AddressResponseTest {
 
     private Person person;
-    private AddressResponseDTO addressResponseDTO;
-    private AddressResponseDTO sameAddressResponseDTO;
-    private AddressResponseDTO differentAddressResponseDTO;
+    private AddressResponse addressResponse;
+    private AddressResponse sameAddressResponse;
+    private AddressResponse differentAddressResponse;
 
     void setPerson() {
 
@@ -21,9 +21,9 @@ class AddressResponseDTOTest {
                 .build();
     }
 
-    void setAddressResponseDTO() {
+    void setAddressResponse() {
 
-        this.addressResponseDTO = AddressResponseDTO.AddressResponseDTOBuilder.builder()
+        this.addressResponse = AddressResponse.AddressResponseBuilder.builder()
                 .id(1L)
                 .cep("11111-111")
                 .number("1")
@@ -34,9 +34,9 @@ class AddressResponseDTOTest {
                 .build();
     }
 
-    void setSameAddressResponseDTO() {
+    void setSameAddressResponse() {
 
-        this.sameAddressResponseDTO = AddressResponseDTO.AddressResponseDTOBuilder.builder()
+        this.sameAddressResponse = AddressResponse.AddressResponseBuilder.builder()
                 .id(1L)
                 .cep("11111-111")
                 .number("1")
@@ -47,9 +47,9 @@ class AddressResponseDTOTest {
                 .build();
     }
 
-    void setDifferentAddressResponseDTO() {
+    void setDifferentAddressResponse() {
 
-        this.differentAddressResponseDTO = AddressResponseDTO.AddressResponseDTOBuilder.builder()
+        this.differentAddressResponse = AddressResponse.AddressResponseBuilder.builder()
                 .id(2L)
                 .cep("22222-222")
                 .number("2")
@@ -68,72 +68,72 @@ class AddressResponseDTOTest {
     void initializeObjects() {
 
         this.setPerson();
-        this.setAddressResponseDTO();
-        this.setSameAddressResponseDTO();
-        this.setDifferentAddressResponseDTO();
+        this.setAddressResponse();
+        this.setSameAddressResponse();
+        this.setDifferentAddressResponse();
     }
 
     @Test
     void getId() {
 
-        Assertions.assertThat(this.addressResponseDTO.getId())
+        Assertions.assertThat(this.addressResponse.getId())
                 .isEqualTo(1L);
     }
 
     @Test
     void getCep() {
 
-        Assertions.assertThat(this.addressResponseDTO.getCep())
+        Assertions.assertThat(this.addressResponse.getCep())
                 .isEqualTo("11111-111");
     }
 
     @Test
     void getNumber() {
 
-        Assertions.assertThat(this.addressResponseDTO.getNumber())
+        Assertions.assertThat(this.addressResponse.getNumber())
                 .isEqualTo("1");
     }
 
     @Test
     void getPublicPlace() {
 
-        Assertions.assertThat(this.addressResponseDTO.getPublicPlace())
+        Assertions.assertThat(this.addressResponse.getPublicPlace())
                 .isEqualTo("public place1");
     }
 
     @Test
     void getCity() {
 
-        Assertions.assertThat(this.addressResponseDTO.getCity())
+        Assertions.assertThat(this.addressResponse.getCity())
                 .isEqualTo("city1");
     }
 
     @Test
     void isMain() {
 
-        Assertions.assertThat(this.addressResponseDTO.isMain())
+        Assertions.assertThat(this.addressResponse.isMain())
                 .isTrue();
     }
 
     @Test
     void getPerson() {
 
-        Assertions.assertThat(this.addressResponseDTO.getPerson())
+        Assertions.assertThat(this.addressResponse.getPerson())
                 .isEqualTo(this.person);
     }
 
     @Test
     void testEquals() {
 
-        Assertions.assertThat(this.addressResponseDTO)
-                .isEqualTo(this.sameAddressResponseDTO)
-                .isNotEqualTo(this.differentAddressResponseDTO);
+        Assertions.assertThat(this.addressResponse)
+                .isEqualTo(this.sameAddressResponse)
+                .isNotEqualTo(this.differentAddressResponse);
     }
 
     @Test
     void testHashCode() {
 
-        Assertions.assertThat(this.addressResponseDTO)
-                .hasSameHashCodeAs(this.sameAddressResponseDTO);
+        Assertions.assertThat(this.addressResponse)
+                .hasSameHashCodeAs(this.sameAddressResponse);
     }
 }
