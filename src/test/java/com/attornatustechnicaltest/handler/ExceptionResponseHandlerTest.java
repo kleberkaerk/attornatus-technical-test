@@ -1,6 +1,8 @@
 package com.attornatustechnicaltest.handler;
 
+import com.attornatustechnicaltest.exception.AddressNotFoundException;
 import com.attornatustechnicaltest.exception.NonExistentPersonException;
+import com.attornatustechnicaltest.exception_response.AddressNotFoundExceptionDetails;
 import com.attornatustechnicaltest.exception_response.MethodArgumentNotValidExceptionDetails;
 import com.attornatustechnicaltest.exception_response.NonExistentPersonExceptionDetails;
 import org.assertj.core.api.Assertions;
@@ -28,16 +30,20 @@ class ExceptionResponseHandlerTest {
     @Mock
     private WebRequest webRequest;
 
-    private MethodArgumentNotValidExceptionDetails methodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid;
+    private ResponseEntity<MethodArgumentNotValidExceptionDetails> responseEntityToComparisonInHandleMethodArgumentNotValid;
     private ResponseEntity<NonExistentPersonExceptionDetails> responseEntityToComparisonInHandleNonExistentPerson;
+    private ResponseEntity<AddressNotFoundExceptionDetails> responseEntityToComparisonInHandleAddressNotFound;
 
-    void setMethodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid() {
+    void setResponseEntityToComparisonInHandleMethodArgumentNotValid() {
 
-        this.methodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid = MethodArgumentNotValidExceptionDetails
-                .MethodArgumentNotValidExceptionDetailsBuilder.builder()
-                .error("Bad Request")
-                .message("default message of error")
-                .build();
+        this.responseEntityToComparisonInHandleMethodArgumentNotValid = new ResponseEntity<>(
+                MethodArgumentNotValidExceptionDetails
+                        .MethodArgumentNotValidExceptionDetailsBuilder.builder()
+                        .error("Bad Request")
+                        .message("default message of error")
+                        .build(),
+                HttpStatus.BAD_REQUEST
+        );
     }
 
     void setResponseEntityToComparisonInHandleNonExistentPerson() {
@@ -49,11 +55,22 @@ class ExceptionResponseHandlerTest {
                 HttpStatus.NOT_FOUND);
     }
 
+    void setResponseEntityToComparisonInHandleAddressNotFound() {
+
+        this.responseEntityToComparisonInHandleAddressNotFound = new ResponseEntity<>(
+                AddressNotFoundExceptionDetails.AddressNotFoundExceptionDetailsBuilder.builder()
+                        .message("error message")
+                        .build(),
+                HttpStatus.NOT_FOUND
+        );
+    }
+
     @BeforeEach
     void initializeObjects() {
 
-        this.setMethodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid();
+        this.setResponseEntityToComparisonInHandleMethodArgumentNotValid();
         this.setResponseEntityToComparisonInHandleNonExistentPerson();
+        this.setResponseEntityToComparisonInHandleAddressNotFound();
     }
 
     @BeforeEach
@@ -77,9 +94,7 @@ class ExceptionResponseHandlerTest {
 
         Assertions.assertThat(responseEntityHandleMethodArgumentNotValid)
                 .isNotNull()
-                .isEqualTo(new ResponseEntity<>(
-                        this.methodArgumentNotValidExceptionDetailsToComparisonInHandleMethodArgumentNotValid,
-                        HttpStatus.BAD_REQUEST));
+                .isEqualTo(this.responseEntityToComparisonInHandleMethodArgumentNotValid);
     }
 
     @Test
@@ -93,5 +108,18 @@ class ExceptionResponseHandlerTest {
         Assertions.assertThat(this.exceptionResponseHandler.handleNonExistentPerson(nonExistentPersonException))
                 .isNotNull()
                 .isEqualTo(this.responseEntityToComparisonInHandleNonExistentPerson);
+    }
+
+    @Test
+    void handleAddressNotFound_returnsAResponseEntityWithAAddressNotFoundExceptionDetailsObjectAndAStatusCodeNotFound_wheneverCalled() {
+
+        AddressNotFoundException addressNotFoundException = new AddressNotFoundException("error message");
+
+        Assertions.assertThatCode(() -> this.exceptionResponseHandler.handleAddressNotFound(addressNotFoundException))
+                .doesNotThrowAnyException();
+
+        Assertions.assertThat(this.exceptionResponseHandler.handleAddressNotFound(addressNotFoundException))
+                .isNotNull()
+                .isEqualTo(this.responseEntityToComparisonInHandleAddressNotFound);
     }
 }
