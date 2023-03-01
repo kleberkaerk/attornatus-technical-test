@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
@@ -20,4 +21,11 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
     @Modifying
     @Query("update Address a set a.isMain = :isMain where a.id = :id")
     void updateIsMainById(@Param("isMain") boolean isMain, @Param("id") Long id);
+
+    Optional<Address> findByPersonAndId(Person person, Long id);
+
+    @Transactional
+    @Modifying
+    @Query("update Address a set a.isMain = :isMain where a.person = :person and a.id = :id")
+    void updateIsMainByPersonAndId(@Param("isMain") boolean isMain, @Param("person") Person person, @Param("id") Long id);
 }
