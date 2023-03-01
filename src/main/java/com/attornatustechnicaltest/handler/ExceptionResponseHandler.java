@@ -1,6 +1,8 @@
 package com.attornatustechnicaltest.handler;
 
+import com.attornatustechnicaltest.exception.AddressNotFoundException;
 import com.attornatustechnicaltest.exception.NonExistentPersonException;
+import com.attornatustechnicaltest.exception_response.AddressNotFoundExceptionDetails;
 import com.attornatustechnicaltest.exception_response.MethodArgumentNotValidExceptionDetails;
 import com.attornatustechnicaltest.exception_response.NonExistentPersonExceptionDetails;
 import org.springframework.http.HttpHeaders;
@@ -38,6 +40,16 @@ public class ExceptionResponseHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(
                 NonExistentPersonExceptionDetails.NonExistentPersonExceptionDetailsBuilder.builder()
+                        .message(ex.getMessage())
+                        .build(),
+                HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(AddressNotFoundException.class)
+    public ResponseEntity<AddressNotFoundExceptionDetails> handleAddressNotFound(AddressNotFoundException ex) {
+
+        return new ResponseEntity<>(
+                AddressNotFoundExceptionDetails.AddressNotFoundExceptionDetailsBuilder.builder()
                         .message(ex.getMessage())
                         .build(),
                 HttpStatus.NOT_FOUND);
