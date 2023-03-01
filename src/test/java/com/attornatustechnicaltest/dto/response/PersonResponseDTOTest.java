@@ -10,26 +10,39 @@ class PersonResponseDTOTest {
     private PersonResponseDTO samePersonResponseDTO;
     private PersonResponseDTO differentPersonResponseDTO;
 
-    @BeforeEach
-    void initializeObjects() {
+    void setPersonResponseDTO() {
 
         this.personResponseDTO = PersonResponseDTO.PersonResponseDTOBuilder.builder()
                 .id(1L)
                 .name("name1")
                 .dateOfBirth("01-01-2001")
                 .build();
+    }
+
+    void setSamePersonResponseDTO() {
 
         this.samePersonResponseDTO = PersonResponseDTO.PersonResponseDTOBuilder.builder()
                 .id(1L)
                 .name("name1")
                 .dateOfBirth("01-01-2001")
                 .build();
+    }
+
+    void setDifferentPersonResponseDTO() {
 
         this.differentPersonResponseDTO = PersonResponseDTO.PersonResponseDTOBuilder.builder()
                 .id(2L)
                 .name("name2")
                 .dateOfBirth("02-02-2002")
                 .build();
+    }
+
+    @BeforeEach
+    void initializeObjects() {
+
+        this.setPersonResponseDTO();
+        this.setSamePersonResponseDTO();
+        this.setDifferentPersonResponseDTO();
     }
 
     @Test
