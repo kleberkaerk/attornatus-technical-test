@@ -1,7 +1,7 @@
 package com.attornatustechnicaltest.controller;
 
-import com.attornatustechnicaltest.dto.request.PersonRequestDTO;
-import com.attornatustechnicaltest.dto.response.PersonResponseDTO;
+import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.response.PersonResponse;
 import com.attornatustechnicaltest.service.PersonService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,11 +24,11 @@ class PersonControllerTest {
     @Mock
     private PersonService personService;
 
-    private PersonResponseDTO personResponseDTORegisterPerson;
+    private PersonResponse personResponseRegisterPerson;
 
-    private void setPersonResponseDTORegisterPerson() {
+    private void setPersonResponseRegisterPerson() {
 
-        this.personResponseDTORegisterPerson = PersonResponseDTO.PersonResponseDTOBuilder.builder()
+        this.personResponseRegisterPerson = PersonResponse.PersonResponseBuilder.builder()
                 .id(1L)
                 .name("name")
                 .dateOfBirth("01-01-2000")
@@ -38,26 +38,26 @@ class PersonControllerTest {
     @BeforeEach
     void initializeObjects() {
 
-        this.setPersonResponseDTORegisterPerson();
+        this.setPersonResponseRegisterPerson();
     }
 
     @BeforeEach
     void definitionOfBehaviorsToMocks() {
 
-        BDDMockito.when(personService.registerPerson(ArgumentMatchers.any(PersonRequestDTO.class)))
-                .thenReturn(this.personResponseDTORegisterPerson);
+        BDDMockito.when(personService.registerPerson(ArgumentMatchers.any(PersonRequestPost.class)))
+                .thenReturn(this.personResponseRegisterPerson);
     }
 
     @Test
     void registerPerson_returnsTheReturnOfMethodRegisterPersonFromPersonServiceAndAStatusCodeCreated_wheneverCalled() {
 
-        PersonRequestDTO personRequestDTO = PersonRequestDTO.PersonRequestDTOBuilder.builder().build();
+        PersonRequestPost personRequestPost = PersonRequestPost.PersonRequestPostBuilder.builder().build();
 
-        Assertions.assertThatCode(() -> this.personController.registerPerson(personRequestDTO))
+        Assertions.assertThatCode(() -> this.personController.registerPerson(personRequestPost))
                 .doesNotThrowAnyException();
 
-        Assertions.assertThat(this.personController.registerPerson(personRequestDTO))
+        Assertions.assertThat(this.personController.registerPerson(personRequestPost))
                 .isNotNull()
-                .isEqualTo(new ResponseEntity<>(this.personResponseDTORegisterPerson, HttpStatus.CREATED));
+                .isEqualTo(new ResponseEntity<>(this.personResponseRegisterPerson, HttpStatus.CREATED));
     }
 }
