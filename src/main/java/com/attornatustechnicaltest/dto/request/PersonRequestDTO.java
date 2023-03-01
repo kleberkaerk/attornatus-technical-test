@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class PersonRequestDTO {
 
-    @Pattern(regexp = "[a-zA-Z\\s]+", message = "Nome inválido, por favor verifique seu nome e tente novamente.")
+    @Pattern(regexp = "[a-zA-ZçÇáÁéÉíÍóÓúÚãÃõÕâÂêÊîÎôÔûÛ\\s]+", message = "Nome inválido, por favor verifique seu nome e tente novamente.")
     private final String name;
 
     @Pattern(regexp = "\\d{2}-\\d{2}-\\d{4}", message = "Data de nascimento inválida, por favor insira sua data de nascimento no formato dd-mm-aaaa.")
