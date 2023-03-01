@@ -1,7 +1,7 @@
 package com.attornatustechnicaltest.controller;
 
-import com.attornatustechnicaltest.dto.request.AddressRequestDTO;
-import com.attornatustechnicaltest.dto.response.AddressResponseDTO;
+import com.attornatustechnicaltest.dto.request.AddressRequestPost;
+import com.attornatustechnicaltest.dto.response.AddressResponse;
 import com.attornatustechnicaltest.service.AddressService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,8 @@ public class AddressController {
     }
 
     @PostMapping(value = "register")
-    public ResponseEntity<AddressResponseDTO> registerAddress(@RequestBody @Valid AddressRequestDTO addressRequestDTO) {
+    public ResponseEntity<AddressResponse> registerAddress(@RequestBody @Valid AddressRequestPost addressRequestPost) {
 
-        return new ResponseEntity<>(this.addressService.registerAddress(addressRequestDTO), HttpStatus.CREATED);
+        return new ResponseEntity<>(this.addressService.registerAddress(addressRequestPost), HttpStatus.CREATED);
     }
 }
