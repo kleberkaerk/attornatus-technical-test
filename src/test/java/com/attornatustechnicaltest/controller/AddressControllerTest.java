@@ -1,8 +1,8 @@
 package com.attornatustechnicaltest.controller;
 
 import com.attornatustechnicaltest.domain.Person;
-import com.attornatustechnicaltest.dto.request.AddressRequestDTO;
-import com.attornatustechnicaltest.dto.response.AddressResponseDTO;
+import com.attornatustechnicaltest.dto.request.AddressRequestPost;
+import com.attornatustechnicaltest.dto.response.AddressResponse;
 import com.attornatustechnicaltest.service.AddressService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,9 +25,9 @@ class AddressControllerTest {
     @Mock
     private AddressService addressService;
 
-    private AddressResponseDTO addressResponseDTORegisterAddress;
+    private AddressResponse addressResponseRegisterAddress;
 
-    void setAddressResponseDTORegisterAddress() {
+    void setAddressResponseRegisterAddress() {
 
         Person person = Person.PersonBuilder.builder()
                 .id(1L)
@@ -35,7 +35,7 @@ class AddressControllerTest {
                 .dateOfBirth("01-01-2001")
                 .build();
 
-        this.addressResponseDTORegisterAddress = AddressResponseDTO.AddressResponseDTOBuilder.builder()
+        this.addressResponseRegisterAddress = AddressResponse.AddressResponseBuilder.builder()
                 .id(1L)
                 .cep("00000-000")
                 .number("1")
@@ -49,26 +49,26 @@ class AddressControllerTest {
     @BeforeEach
     void initializeObjects() {
 
-        this.setAddressResponseDTORegisterAddress();
+        this.setAddressResponseRegisterAddress();
     }
 
     @BeforeEach
     void definitionOfBehaviorsToMocks() {
 
-        BDDMockito.when(this.addressService.registerAddress(ArgumentMatchers.any(AddressRequestDTO.class)))
-                .thenReturn(this.addressResponseDTORegisterAddress);
+        BDDMockito.when(this.addressService.registerAddress(ArgumentMatchers.any(AddressRequestPost.class)))
+                .thenReturn(this.addressResponseRegisterAddress);
     }
 
     @Test
     void registerAddress_returnsTheReturnOfMethodRegisterAddressFromAddressServiceAndAStatusCodeCreated_wheneverCalled() {
 
-        AddressRequestDTO addressRequestDTO = AddressRequestDTO.AddressRequestDTOBuilder.builder().build();
+        AddressRequestPost addressRequestPost = AddressRequestPost.AddressRequestPostBuilder.builder().build();
 
-        Assertions.assertThatCode(() -> this.addressController.registerAddress(addressRequestDTO))
+        Assertions.assertThatCode(() -> this.addressController.registerAddress(addressRequestPost))
                 .doesNotThrowAnyException();
 
-        Assertions.assertThat(this.addressController.registerAddress(addressRequestDTO))
+        Assertions.assertThat(this.addressController.registerAddress(addressRequestPost))
                 .isNotNull()
-                .isEqualTo(new ResponseEntity<>(this.addressResponseDTORegisterAddress, HttpStatus.CREATED));
+                .isEqualTo(new ResponseEntity<>(this.addressResponseRegisterAddress, HttpStatus.CREATED));
     }
 }
