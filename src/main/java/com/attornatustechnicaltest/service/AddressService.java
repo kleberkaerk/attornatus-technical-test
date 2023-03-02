@@ -20,11 +20,25 @@ public class AddressService {
     private final PersonService personService;
     private final AddressRepository addressRepository;
 
+    private static final String NON_EXISTENT_PERSON_MESSAGE = "Pessoa inexistente, por favor verifique a pessoa e tente novamente.";
+
     @Autowired
     protected AddressService(PersonService personService, AddressRepository addressRepository) {
 
         this.personService = personService;
         this.addressRepository = addressRepository;
+    }
+
+    public List<AddressResponse> findPersonAddress(Long personId) {
+
+        Person person = this.personService.findOptionalPersonById(personId)
+                .orElseThrow(() -> new NonExistentPersonException(NON_EXISTENT_PERSON_MESSAGE));
+
+        List<Address> personAddresses = this.addressRepository.findByPerson(person);
+
+        return personAddresses.stream()
+                .map(Mapper::fromAddressToAddressResponse)
+                .toList();
     }
 
     private void deactivateAnotherMainAddress(List<Address> personAddresses) {
@@ -40,7 +54,7 @@ public class AddressService {
     public AddressResponse registerAddress(AddressRequestPost addressRequestPost) {
 
         Person person = this.personService.findOptionalPersonById(addressRequestPost.getPersonId())
-                .orElseThrow(() -> new NonExistentPersonException("Pessoa inexistente, por favor verifique a pessoa e tente novamente."));
+                .orElseThrow(() -> new NonExistentPersonException(NON_EXISTENT_PERSON_MESSAGE));
 
         if (addressRequestPost.isMain()) {
 
@@ -57,7 +71,7 @@ public class AddressService {
     public void updateMainAddress(Long personId, Long addressId) {
 
         Person person = this.personService.findOptionalPersonById(personId)
-                .orElseThrow(() -> new NonExistentPersonException("Pessoa inexistente, por favor verifique a pessoa e tente novamente."));
+                .orElseThrow(() -> new NonExistentPersonException(NON_EXISTENT_PERSON_MESSAGE));
 
         Optional<Address> optionalAddress = this.addressRepository.findByPersonAndId(person, addressId);
 
