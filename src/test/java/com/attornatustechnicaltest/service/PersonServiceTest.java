@@ -120,6 +120,29 @@ class PersonServiceTest {
     }
 
     @Test
+    void findPersonById_throwsNonExistentPersonException_whenThereIsNoPersonInTheDatabaseWithAnIdEqualToTheValueOfThePersonIdParameter() {
+
+        BDDMockito.when(this.personRepository.findById(ArgumentMatchers.any(Long.class)))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThatExceptionOfType(NonExistentPersonException.class)
+                .isThrownBy(() -> this.personService.findPersonById(1L));
+    }
+
+    @Test
+    void findPersonById_findAPersonByIdAndReturnsAPersonResponseRepresentingThePersonFound_whenThePersonIdParameterIsValid() {
+
+        PersonResponse personResponseToComparison = Mapper.fromPersonToPersonResponse(this.personFindById);
+
+        Assertions.assertThatCode(() -> this.personService.findPersonById(1L))
+                .doesNotThrowAnyException();
+
+        Assertions.assertThat(this.personService.findPersonById(1L))
+                .isNotNull()
+                .isEqualTo(personResponseToComparison);
+    }
+
+    @Test
     void registerPerson_mapsPersonRequestToPersonAndUsesThePersonRepositoryToSaveANewPersonAndMapsTheSavedPersonToAPersonResponseAndReturnsThePersonResponse_wheneverCalled() {
 
         PersonRequestPost personRequestPost = PersonRequestPost.PersonRequestPostBuilder.builder().build();
@@ -173,6 +196,5 @@ class PersonServiceTest {
 
         Mockito.verify(this.personRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Person.class));
-
     }
 }
