@@ -2,16 +2,15 @@ package com.attornatustechnicaltest.service;
 
 import com.attornatustechnicaltest.domain.Person;
 import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.request.PersonRequestPut;
 import com.attornatustechnicaltest.dto.response.PersonResponse;
+import com.attornatustechnicaltest.exception.NonExistentPersonException;
 import com.attornatustechnicaltest.repository.PersonRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
@@ -96,5 +95,38 @@ class PersonServiceTest {
         Assertions.assertThat(this.personService.findOptionalPersonById(2L))
                 .isNotNull()
                 .contains(this.personFindById);
+    }
+
+    @Test
+    void updatePerson_throwsNonExistentPersonException_whenThereIsNoPersonInTheDatabaseWithAnIdEqualToTheValueOfTheIdPropertyFromPersonRequestPut() {
+
+        BDDMockito.when(this.personRepository.findById(ArgumentMatchers.any(Long.class)))
+                .thenReturn(Optional.empty());
+
+        PersonRequestPut personRequestPut = PersonRequestPut.PersonRequestPutBuilder.builder()
+                .id(3L)
+                .name("name3")
+                .dateOfBirth("03-02-2002")
+                .build();
+
+        Assertions.assertThatExceptionOfType(NonExistentPersonException.class)
+                .isThrownBy(() -> this.personService.updatePerson(personRequestPut));
+    }
+
+    @Test
+    void updatePerson_mapsFromPersonRequestPutToPersonAndCallsPersonRepositoryToUpdatesThisPersonInDatabase_whenPersonRequestPutIsValid() {
+
+        PersonRequestPut personRequestPut = PersonRequestPut.PersonRequestPutBuilder.builder()
+                .id(2L)
+                .name("name2")
+                .dateOfBirth("02-02-2002")
+                .build();
+
+        Assertions.assertThatCode(() -> this.personService.updatePerson(personRequestPut))
+                .doesNotThrowAnyException();
+
+        Mockito.verify(this.personRepository, Mockito.times(1))
+                .save(ArgumentMatchers.any(Person.class));
+
     }
 }
