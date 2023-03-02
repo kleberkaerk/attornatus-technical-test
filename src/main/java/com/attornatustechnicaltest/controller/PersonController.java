@@ -30,6 +30,12 @@ public class PersonController {
         return new ResponseEntity<>(this.personService.findAllPerson(pageable), HttpStatus.OK);
     }
 
+    @GetMapping(value = "find-by-id/{personId}")
+    public ResponseEntity<PersonResponse> findPersonById(@PathVariable Long personId) {
+
+        return new ResponseEntity<>(this.personService.findPersonById(personId), HttpStatus.OK);
+    }
+
     @PostMapping(value = "register")
     public ResponseEntity<PersonResponse> registerPerson(@RequestBody @Valid PersonRequestPost personRequestPost) {
 
