@@ -2,7 +2,9 @@ package com.attornatustechnicaltest.service;
 
 import com.attornatustechnicaltest.domain.Person;
 import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.request.PersonRequestPut;
 import com.attornatustechnicaltest.dto.response.PersonResponse;
+import com.attornatustechnicaltest.exception.NonExistentPersonException;
 import com.attornatustechnicaltest.repository.PersonRepository;
 import com.attornatustechnicaltest.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,19 @@ public class PersonService {
     protected Optional<Person> findOptionalPersonById(Long personId) {
 
         return this.personRepository.findById(personId);
+    }
+
+    public void updatePerson(PersonRequestPut personRequestPut) {
+
+        Optional<Person> optionalPerson = this.findOptionalPersonById(personRequestPut.getId());
+
+        if(optionalPerson.isEmpty()){
+
+            throw new NonExistentPersonException("Pessoa inexistente, por favor verifique a pessoa e tente novamente.");
+        }
+
+        Person person = Mapper.fromPersonRequestPutToPerson(personRequestPut);
+
+        this.personRepository.save(person);
     }
 }
