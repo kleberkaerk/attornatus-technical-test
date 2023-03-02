@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("persons")
+@CrossOrigin("*")
 public class PersonController {
 
     private final PersonService personService;
