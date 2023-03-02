@@ -1,6 +1,7 @@
 package com.attornatustechnicaltest.controller;
 
 import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.request.PersonRequestPut;
 import com.attornatustechnicaltest.dto.response.PersonResponse;
 import com.attornatustechnicaltest.service.PersonService;
 import jakarta.validation.Valid;
@@ -21,11 +22,19 @@ public class PersonController {
         this.personService = personService;
     }
 
-    @PostMapping("register")
+    @PostMapping(value = "register")
     public ResponseEntity<PersonResponse> registerPerson(@RequestBody @Valid PersonRequestPost personRequestPost) {
 
         return new ResponseEntity<>(
                 this.personService.registerPerson(personRequestPost),
                 HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "update")
+    public ResponseEntity<Void> updatePerson(@RequestBody PersonRequestPut personRequestPut) {
+
+        this.personService.updatePerson(personRequestPut);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
