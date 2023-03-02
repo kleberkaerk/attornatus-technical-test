@@ -36,6 +36,11 @@ public class AddressService {
 
         List<Address> personAddresses = this.addressRepository.findByPerson(person);
 
+        if (personAddresses.isEmpty()) {
+
+            throw new AddressNotFoundException("Nenhum endereço não encontrado, verifique se esta pessoa possui algum endereço cadastrado e tente novamente.");
+        }
+
         return personAddresses.stream()
                 .map(Mapper::fromAddressToAddressResponse)
                 .toList();
