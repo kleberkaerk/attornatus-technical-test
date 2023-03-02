@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,7 @@ class AddressServiceTest {
     private List<Address> addressesFindByPerson;
     private AddressResponse addressResponseToComparisonInRegisterAddress2;
     private Address addressFindByPersonAndId;
+    private List<AddressResponse> addressResponsesToComparisonInFindPersonAddress;
 
     void setPersonFindOptionalPersonById() {
 
@@ -114,6 +116,39 @@ class AddressServiceTest {
                 .build();
     }
 
+    void setAddressResponsesToComparisonInFindPersonAddress() {
+
+        this.addressResponsesToComparisonInFindPersonAddress = List.of(
+                AddressResponse.AddressResponseBuilder.builder()
+                        .id(1L)
+                        .cep("11111-111")
+                        .number("1")
+                        .publicPlace("public place1")
+                        .city("city1")
+                        .isMain(false)
+                        .person(this.personFindOptionalPersonById)
+                        .build(),
+                AddressResponse.AddressResponseBuilder.builder()
+                        .id(2L)
+                        .cep("22222-222")
+                        .number("2")
+                        .publicPlace("public place2")
+                        .city("city2")
+                        .isMain(true)
+                        .person(this.personFindOptionalPersonById)
+                        .build(),
+                AddressResponse.AddressResponseBuilder.builder()
+                        .id(3L)
+                        .cep("33333-333")
+                        .number("3")
+                        .publicPlace("public place3")
+                        .city("city3")
+                        .isMain(false)
+                        .person(this.personFindOptionalPersonById)
+                        .build()
+        );
+    }
+
     @BeforeEach
     void initializeObjects() {
 
@@ -122,6 +157,7 @@ class AddressServiceTest {
         this.setAddressesFindByPerson();
         this.setAddressResponseToComparisonInRegisterAddress2();
         this.setAddressFindByPersonAndId();
+        this.setAddressResponsesToComparisonInFindPersonAddress();
     }
 
     @BeforeEach
@@ -147,6 +183,45 @@ class AddressServiceTest {
                         ArgumentMatchers.anyBoolean(),
                         ArgumentMatchers.any(Person.class),
                         ArgumentMatchers.any(Long.class));
+    }
+
+    @Test
+    void findPersonAddress_throwsNonExistentPersonException_whenThereIsNoPersonInTheDatabaseWithAnIdEqualToTheValueOfThePersonIdParameter() {
+
+        BDDMockito.when(this.personService.findOptionalPersonById(ArgumentMatchers.any(Long.class)))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThatExceptionOfType(NonExistentPersonException.class)
+                .isThrownBy(() -> this.addressService.findPersonAddress(2L));
+    }
+
+    @Test
+    void findPersonAddress_throwsAddressNotFoundException_whenThePersonWhoHasTheIdEqualToThePersonIdParameterDoesNotHaveRegisteredAddresses() {
+
+        BDDMockito.when(this.personService.findOptionalPersonById(ArgumentMatchers.any(Long.class)))
+                .thenReturn(Optional.of(Person.PersonBuilder.builder()
+                        .id(2L)
+                        .name("name2")
+                        .dateOfBirth("02-02-2002")
+                        .build()));
+
+        BDDMockito.when(this.addressRepository.findByPerson(ArgumentMatchers.any(Person.class)))
+                .thenReturn(Collections.emptyList());
+
+        Assertions.assertThatExceptionOfType(AddressNotFoundException.class)
+                .isThrownBy(() -> this.addressService.findPersonAddress(2L));
+    }
+
+    @Test
+    void findPersonAddress_returnsAListOfAddressResponseRepresentingAllAddressOfAPerson_whenPersonIdParameterIsValid() {
+
+        Assertions.assertThat(this.addressService.findPersonAddress(1L))
+                .isNotNull()
+                .hasSize(3)
+                .asList()
+                .isEqualTo(this.addressResponsesToComparisonInFindPersonAddress)
+                .contains(this.addressResponsesToComparisonInFindPersonAddress.get(0));
+
     }
 
     @Test
