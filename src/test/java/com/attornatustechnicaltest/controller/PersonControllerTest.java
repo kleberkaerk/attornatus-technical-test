@@ -28,8 +28,8 @@ class PersonControllerTest {
     private PersonService personService;
 
     private PersonResponse personResponseRegisterPerson;
-
     private List<PersonResponse> peopleFindAllPerson;
+    private PersonResponse personResponseFindPersonById;
 
     void setPersonResponseRegisterPerson() {
 
@@ -61,11 +61,21 @@ class PersonControllerTest {
         );
     }
 
+    void setPersonResponseFindPersonById() {
+
+        this.personResponseFindPersonById = PersonResponse.PersonResponseBuilder.builder()
+                .id(1L)
+                .name("name1")
+                .dateOfBirth("01-01-2001")
+                .build();
+    }
+
     @BeforeEach
     void initializeObjects() {
 
         this.setPersonResponseRegisterPerson();
         this.setPeopleFindAllPerson();
+        this.setPersonResponseFindPersonById();
     }
 
     @BeforeEach
@@ -79,6 +89,9 @@ class PersonControllerTest {
 
         BDDMockito.when(this.personService.findAllPerson(ArgumentMatchers.any(Pageable.class)))
                 .thenReturn(new PageImpl<>(this.peopleFindAllPerson));
+
+        BDDMockito.when(this.personService.findPersonById(ArgumentMatchers.any(Long.class)))
+                .thenReturn(this.personResponseFindPersonById);
     }
 
     @Test
@@ -90,6 +103,17 @@ class PersonControllerTest {
         Assertions.assertThat(this.personController.findAllPerson(Page.empty().getPageable()))
                 .isNotNull()
                 .isEqualTo(new ResponseEntity<>(new PageImpl<>(this.peopleFindAllPerson), HttpStatus.OK));
+    }
+
+    @Test
+    void findPersonById_returnsTheReturnOfMethodFindPersonByIdFromPersonServiceAndAStatusCodeOk_whenPersonServiceThrowsNoException() {
+
+        Assertions.assertThatCode(() -> this.personController.findPersonById(1L))
+                        .doesNotThrowAnyException();
+
+        Assertions.assertThat(this.personController.findPersonById(1L))
+                .isNotNull()
+                .isEqualTo(new ResponseEntity<>(this.personResponseFindPersonById, HttpStatus.OK));
     }
 
     @Test
