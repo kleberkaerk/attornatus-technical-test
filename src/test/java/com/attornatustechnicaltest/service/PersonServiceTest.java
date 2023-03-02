@@ -6,13 +6,18 @@ import com.attornatustechnicaltest.dto.request.PersonRequestPut;
 import com.attornatustechnicaltest.dto.response.PersonResponse;
 import com.attornatustechnicaltest.exception.NonExistentPersonException;
 import com.attornatustechnicaltest.repository.PersonRepository;
+import com.attornatustechnicaltest.util.Mapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
@@ -27,6 +32,7 @@ class PersonServiceTest {
     private Person personSave;
     private PersonResponse personResponseToComparisonInRegisterPerson;
     private Person personFindById;
+    private List<Person> peopleFindAll;
 
     void setPersonSave() {
 
@@ -55,12 +61,34 @@ class PersonServiceTest {
                 .build();
     }
 
+    void setPeopleFindAll() {
+
+        this.peopleFindAll = List.of(
+                Person.PersonBuilder.builder()
+                        .id(1L)
+                        .name("name1")
+                        .dateOfBirth("01-01-2001")
+                        .build(),
+                Person.PersonBuilder.builder()
+                        .id(2L)
+                        .name("name2")
+                        .dateOfBirth("02-02-2002")
+                        .build(),
+                Person.PersonBuilder.builder()
+                        .id(3L)
+                        .name("name3")
+                        .dateOfBirth("03-03-2003")
+                        .build()
+        );
+    }
+
     @BeforeEach
     void initializeObjects() {
 
         this.setPersonSave();
         this.setPersonResponseToComparisonInRegisterPerson();
         this.setPersonFindById();
+        this.setPeopleFindAll();
     }
 
     @BeforeEach
@@ -71,6 +99,24 @@ class PersonServiceTest {
 
         BDDMockito.when(this.personRepository.findById(ArgumentMatchers.any(Long.class)))
                 .thenReturn(Optional.of(this.personFindById));
+
+        BDDMockito.when(this.personRepository.findAll(ArgumentMatchers.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(this.peopleFindAll));
+    }
+
+    @Test
+    void findAllPerson_fetchesAllPeopleAndMapsThemToPersonResponseAndReturnsAPersonResponsePage_wheneverCalled() {
+
+        List<PersonResponse> personResponsesToComparison = this.peopleFindAll.stream()
+                .map(Mapper::fromPersonToPersonResponse)
+                .toList();
+
+        Assertions.assertThatCode(() -> this.personService.findAllPerson(Page.empty().getPageable()))
+                .doesNotThrowAnyException();
+
+        Assertions.assertThat(this.personService.findAllPerson(Page.empty().getPageable()))
+                .isNotNull()
+                .isEqualTo(new PageImpl<>(personResponsesToComparison));
     }
 
     @Test
