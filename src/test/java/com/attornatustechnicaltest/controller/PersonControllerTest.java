@@ -9,9 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 class PersonControllerTest {
@@ -24,7 +29,9 @@ class PersonControllerTest {
 
     private PersonResponse personResponseRegisterPerson;
 
-    private void setPersonResponseRegisterPerson() {
+    private List<PersonResponse> peopleFindAllPerson;
+
+    void setPersonResponseRegisterPerson() {
 
         this.personResponseRegisterPerson = PersonResponse.PersonResponseBuilder.builder()
                 .id(1L)
@@ -33,10 +40,32 @@ class PersonControllerTest {
                 .build();
     }
 
+    void setPeopleFindAllPerson() {
+
+        this.peopleFindAllPerson = List.of(
+                PersonResponse.PersonResponseBuilder.builder()
+                        .id(1L)
+                        .name("name1")
+                        .dateOfBirth("01-01-2001")
+                        .build(),
+                PersonResponse.PersonResponseBuilder.builder()
+                        .id(2L)
+                        .name("name2")
+                        .dateOfBirth("02-02-2002")
+                        .build(),
+                PersonResponse.PersonResponseBuilder.builder()
+                        .id(3L)
+                        .name("name3")
+                        .dateOfBirth("03-03-2003")
+                        .build()
+        );
+    }
+
     @BeforeEach
     void initializeObjects() {
 
         this.setPersonResponseRegisterPerson();
+        this.setPeopleFindAllPerson();
     }
 
     @BeforeEach
@@ -47,6 +76,20 @@ class PersonControllerTest {
 
         BDDMockito.doNothing()
                 .when(this.personService).updatePerson(ArgumentMatchers.any(PersonRequestPut.class));
+
+        BDDMockito.when(this.personService.findAllPerson(ArgumentMatchers.any(Pageable.class)))
+                .thenReturn(new PageImpl<>(this.peopleFindAllPerson));
+    }
+
+    @Test
+    void findAllPerson_returnsTheReturnOfMethodFindAllPersonFromPersonServiceAndAStatusCodeOk_whenPersonServiceThrowsNoException() {
+
+        Assertions.assertThatCode(() -> this.personController.findAllPerson(Page.empty().getPageable()))
+                .doesNotThrowAnyException();
+
+        Assertions.assertThat(this.personController.findAllPerson(Page.empty().getPageable()))
+                .isNotNull()
+                .isEqualTo(new ResponseEntity<>(new PageImpl<>(this.peopleFindAllPerson), HttpStatus.OK));
     }
 
     @Test
