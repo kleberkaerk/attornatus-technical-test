@@ -4,6 +4,7 @@ import com.attornatustechnicaltest.domain.Address;
 import com.attornatustechnicaltest.domain.Person;
 import com.attornatustechnicaltest.dto.request.AddressRequestPost;
 import com.attornatustechnicaltest.dto.request.PersonRequestPost;
+import com.attornatustechnicaltest.dto.request.PersonRequestPut;
 import com.attornatustechnicaltest.dto.response.AddressResponse;
 import com.attornatustechnicaltest.dto.response.PersonResponse;
 
@@ -17,6 +18,15 @@ public class Mapper {
         return Person.PersonBuilder.builder()
                 .name(personRequestPost.getName())
                 .dateOfBirth(personRequestPost.getDateOfBirth())
+                .build();
+    }
+
+    public static Person fromPersonRequestPutToPerson(PersonRequestPut personRequestPut) {
+
+        return Person.PersonBuilder.builder()
+                .id(personRequestPut.getId())
+                .name(personRequestPut.getName())
+                .dateOfBirth(personRequestPut.getDateOfBirth())
                 .build();
     }
 
