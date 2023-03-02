@@ -31,6 +31,14 @@ public class PersonService {
                 .map(Mapper::fromPersonToPersonResponse);
     }
 
+    public PersonResponse findPersonById(Long personId) {
+
+        Person person = this.personRepository.findById(personId)
+                .orElseThrow(() -> new NonExistentPersonException("Pessoa inexistente, por favor verifique a pessoa e tente novamente."));
+
+        return Mapper.fromPersonToPersonResponse(person);
+    }
+
     public PersonResponse registerPerson(PersonRequestPost personRequestPost) {
 
         Person personToBeSaved = Mapper.fromPersonRequestPostToPerson(personRequestPost);
