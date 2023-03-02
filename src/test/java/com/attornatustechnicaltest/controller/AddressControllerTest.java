@@ -106,7 +106,7 @@ class AddressControllerTest {
     }
 
     @Test
-    void findPersonAddress_() {
+    void findPersonAddress_returnsAListWithTheAddressesOfAGivenPersonAndAnAStatusCodeOk_whenAddressServiceThrowsNoException() {
 
         Assertions.assertThatCode(() -> this.addressController.findPersonAddress(1L))
                 .doesNotThrowAnyException();
@@ -117,7 +117,7 @@ class AddressControllerTest {
     }
 
     @Test
-    void registerAddress_returnsTheReturnOfMethodRegisterAddressFromAddressServiceAndAStatusCodeCreated_wheneverCalled() {
+    void registerAddress_returnsTheReturnOfMethodRegisterAddressFromAddressServiceAndAStatusCodeCreated_whenAddressServiceThrowsNoException() {
 
         AddressRequestPost addressRequestPost = AddressRequestPost.AddressRequestPostBuilder.builder().build();
 
@@ -130,7 +130,7 @@ class AddressControllerTest {
     }
 
     @Test
-    void updateMainAddress_ReturnsAStatusCodeNoContent_wheneverCalled() {
+    void updateMainAddress_ReturnsAStatusCodeNoContent_whenAddressServiceThrowsNoException() {
 
         Assertions.assertThatCode(() -> this.addressController.updateMainAddress(1L, 1L))
                 .doesNotThrowAnyException();
