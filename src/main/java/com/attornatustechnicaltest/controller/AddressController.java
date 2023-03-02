@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("addresses")
 public class AddressController {
@@ -19,6 +21,12 @@ public class AddressController {
     protected AddressController(AddressService addressService) {
 
         this.addressService = addressService;
+    }
+
+    @GetMapping(value = "find-by-person/{personId}")
+    public ResponseEntity<List<AddressResponse>> findPersonAddress(@PathVariable Long personId) {
+
+        return new ResponseEntity<>(this.addressService.findPersonAddress(personId), HttpStatus.OK);
     }
 
     @PostMapping(value = "register")
