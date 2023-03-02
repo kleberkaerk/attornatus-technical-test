@@ -8,6 +8,8 @@ import com.attornatustechnicaltest.exception.NonExistentPersonException;
 import com.attornatustechnicaltest.repository.PersonRepository;
 import com.attornatustechnicaltest.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +23,12 @@ public class PersonService {
     protected PersonService(PersonRepository personRepository) {
 
         this.personRepository = personRepository;
+    }
+
+    public Page<PersonResponse> findAllPerson(Pageable pageable) {
+
+        return this.personRepository.findAll(pageable)
+                .map(Mapper::fromPersonToPersonResponse);
     }
 
     public PersonResponse registerPerson(PersonRequestPost personRequestPost) {
