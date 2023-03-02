@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
+
 @ExtendWith(SpringExtension.class)
 class AddressControllerTest {
 
@@ -23,6 +25,7 @@ class AddressControllerTest {
     private AddressService addressService;
 
     private AddressResponse addressResponseRegisterAddress;
+    private List<AddressResponse> addressResponsesFindPersonAddress;
 
     void setAddressResponseRegisterAddress() {
 
@@ -43,10 +46,50 @@ class AddressControllerTest {
                 .build();
     }
 
+    void setAddressResponsesFindPersonAddress() {
+
+        Person person = Person.PersonBuilder.builder()
+                .id(1L)
+                .name("name1")
+                .dateOfBirth("01-01-2001")
+                .build();
+
+        this.addressResponsesFindPersonAddress = List.of(
+                AddressResponse.AddressResponseBuilder.builder()
+                        .id(1L)
+                        .cep("11111-111")
+                        .number("1")
+                        .publicPlace("public place1")
+                        .city("city1")
+                        .isMain(false)
+                        .person(person)
+                        .build(),
+                AddressResponse.AddressResponseBuilder.builder()
+                        .id(2L)
+                        .cep("22222-222")
+                        .number("2")
+                        .publicPlace("public place2")
+                        .city("city2")
+                        .isMain(true)
+                        .person(person)
+                        .build(),
+                AddressResponse.AddressResponseBuilder.builder()
+                        .id(3L)
+                        .cep("33333-333")
+                        .number("3")
+                        .publicPlace("public place3")
+                        .city("city3")
+                        .isMain(false)
+                        .person(person)
+                        .build()
+        );
+    }
+
     @BeforeEach
     void initializeObjects() {
 
         this.setAddressResponseRegisterAddress();
+        this.setAddressResponsesFindPersonAddress();
     }
 
     @BeforeEach
@@ -57,6 +100,20 @@ class AddressControllerTest {
 
         BDDMockito.doNothing()
                 .when(this.addressService).updateMainAddress(ArgumentMatchers.any(Long.class), ArgumentMatchers.any(Long.class));
+
+        BDDMockito.when(this.addressService.findPersonAddress(ArgumentMatchers.any(Long.class)))
+                .thenReturn(this.addressResponsesFindPersonAddress);
+    }
+
+    @Test
+    void findPersonAddress_() {
+
+        Assertions.assertThatCode(() -> this.addressController.findPersonAddress(1L))
+                .doesNotThrowAnyException();
+        
+        Assertions.assertThat(this.addressController.findPersonAddress(1L))
+                .isNotNull()
+                .isEqualTo(new ResponseEntity<>(this.addressResponsesFindPersonAddress, HttpStatus.OK));
     }
 
     @Test
