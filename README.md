@@ -51,7 +51,7 @@ A partir deste ponto, todas as rotas da aplicação estarão disponíveis para s
 
 # Testes unitários
 
-Para executar os testes unitários siga os seguintes passos:
+Para executar os testes unitários, siga os seguintes passos:
 
 * Navegue até o diretório raiz do projeto (onde se encontra o arquivo pom).
 * Abra um terminal e execute o comando `mvn test`.
@@ -67,7 +67,7 @@ Para acessar o console do banco H2 siga os seguintes passos:
 
 Para ler a documentação swagger da aplicação localmente acesse `http://localhost:8080/swagger-ui/index.html`.
 
-Para ler a documentação swagger da aplicação que está no ar acesse `http://ec2-3-87-88-139.compute-1.amazonaws.com:8080/swagger-ui/index.html`.
+Para ler a documentação swagger da aplicação que esta no ar acesse [http://ec2-3-87-88-139.compute-1.amazonaws.com:8080/swagger-ui/index.html](http://ec2-3-87-88-139.compute-1.amazonaws.com:8080/swagger-ui/index.html).
 
 # Autor
 
