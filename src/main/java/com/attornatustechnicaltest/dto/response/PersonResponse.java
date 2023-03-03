@@ -1,11 +1,16 @@
 package com.attornatustechnicaltest.dto.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Objects;
 
 public class PersonResponse {
 
+    @Schema(description = "Id da pessoa", example = "1")
     private final Long id;
+    @Schema(description = "Nome da pessoa", example = "João")
     private final String name;
+    @Schema(description = "Data de nascimento da pessoa", example = "01-01-2001")
     private final String dateOfBirth;
 
     private PersonResponse(Long id, String name, String dateOfBirth) {
