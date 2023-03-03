@@ -1,9 +1,12 @@
 package com.attornatustechnicaltest.exception_response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Objects;
 
 public class AddressNotFoundExceptionDetails {
 
+    @Schema(description = "Mensagem de erro", example = "Endereço não encontrado, por favor verifique se o endereço existe, e tente novamente.")
     private final String message;
 
     private AddressNotFoundExceptionDetails(String message) {
