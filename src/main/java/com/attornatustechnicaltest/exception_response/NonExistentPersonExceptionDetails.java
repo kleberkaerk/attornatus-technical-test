@@ -1,9 +1,12 @@
 package com.attornatustechnicaltest.exception_response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.Objects;
 
 public class NonExistentPersonExceptionDetails {
 
+    @Schema(description = "Mensagem de erro", example = "Pessoa inexistente, por favor verifique a pessoa e tente novamente.")
     private final String message;
 
     private NonExistentPersonExceptionDetails(String message) {
