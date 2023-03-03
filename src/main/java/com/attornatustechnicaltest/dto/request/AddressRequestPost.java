@@ -1,6 +1,7 @@
 package com.attornatustechnicaltest.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
@@ -9,18 +10,22 @@ import java.util.Objects;
 public class AddressRequestPost {
 
     @NotNull(message = "Id da pessoa inválido, por favor verifique o id da pessoa e tente novamente.")
+    @Schema(description = "Id da pessoa", example = "1")
     private final Long personId;
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP inválido, por favor insira o seu cep no formato 00000-000.")
+    @Schema(description = "Cep da pessoa", example = "11111-111")
     private final String cep;
     @Pattern(regexp = "[\\da-zA-Z]+", message = "Número inválido, por favor verifique seu número e tente novamente.")
+    @Schema(description = "Número da pessoa", example = "1")
     private final String number;
     @Pattern(regexp = "[a-zA-ZçÇáÁéÉíÍóÓúÚãÃõÕâÂêÊîÎôÔûÛ\\s]+", message = "Logradouro inválido, por favor verifique seu logradouro e tente novamente.")
+    @Schema(description = "Logradouro da pessoa", example = "Rua Um")
     private final String publicPlace;
-
     @Pattern(regexp = "[a-zA-ZçÇáÁéÉíÍóÓúÚãÃõÕâÂêÊîÎôÔûÛ\\s]+", message = "Cidade inválida, por favor verifique sua cidade e tente novamente.")
+    @Schema(description = "Cidade da pessoa", example = "São Paulo")
     private final String city;
-
     @JsonProperty("main")
+    @Schema(description = "Informa se é o endereço principal da pessoa", example = "true")
     private final boolean isMain;
 
     private AddressRequestPost(Long personId, String cep, String number, String publicPlace, String city, boolean isMain) {
