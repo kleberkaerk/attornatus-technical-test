@@ -1,5 +1,6 @@
 package com.attornatustechnicaltest.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
@@ -7,9 +8,11 @@ import java.util.Objects;
 public class PersonRequestPost {
 
     @Pattern(regexp = "[a-zA-ZçÇáÁéÉíÍóÓúÚãÃõÕâÂêÊîÎôÔûÛ\\s]+", message = "Nome inválido, por favor verifique seu nome e tente novamente.")
+    @Schema(description = "Nome da pessoa", example = "João")
     private final String name;
 
     @Pattern(regexp = "\\d{2}-\\d{2}-\\d{4}", message = "Data de nascimento inválida, por favor insira sua data de nascimento no formato dd-mm-aaaa.")
+    @Schema(description = "Data de nascimento da pessoa", example = "01-01-2001")
     private final String dateOfBirth;
 
     private PersonRequestPost(String name, String dateOfBirth) {
