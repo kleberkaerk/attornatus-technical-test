@@ -41,13 +41,13 @@ A partir deste ponto, todas as rotas da aplicação estarão disponíveis para s
 
 ## Rotas
 
-1. `http://localhost:80/persons/find-all` -> Busca todos as pessoas.
-2. `http://localhost:80/persons/find-by-id/{personId}` -> Busca determinada pessoa.
-3. `http://localhost:80/persons/register` -> Cadastra uma nova pessoa.
-4. `http://localhost:80/persons/update` -> Atualiza uma pessoa.
-5. `http://localhost:80/addresses/find-by-person/{personId}` -> Busca todos os endereços de uma pessoa.
-6. `http://localhost:80/addresses/register` -> Cadastra um novo endereço para uma pessoa.
-7. `http://localhost:80/addresses/{personId}/{addressId}` -> Atualiza o endereço principal de uma pessoa.
+1. `http://localhost:8080/persons/find-all` -> Busca todos as pessoas.
+2. `http://localhost:8080/persons/find-by-id/{personId}` -> Busca determinada pessoa.
+3. `http://localhost:8080/persons/register` -> Cadastra uma nova pessoa.
+4. `http://localhost:8080/persons/update` -> Atualiza uma pessoa.
+5. `http://localhost:8080/addresses/find-by-person/{personId}` -> Busca todos os endereços de uma pessoa.
+6. `http://localhost:8080/addresses/register` -> Cadastra um novo endereço para uma pessoa.
+7. `http://localhost:8080/addresses/{personId}/{addressId}` -> Atualiza o endereço principal de uma pessoa.
 
 # Testes unitários
 
@@ -59,15 +59,15 @@ Para executar os testes unitários siga os seguintes passos:
 # Acesso ao console do H2
 
 Para acessar o console do banco H2 siga os seguintes passos:
-* acesse a `http://localhost:80/h2-console`.
+* acesse a `http://localhost:8080/h2-console`.
 * No campo <strong>JDBC URL</strong> insira o valor `jdbc:h2:mem:TECHNICAL_TEST_DATABASE?createDatabaseIfNotExist=true`.
 * No campo <strong>password</strong> insira o valor `admin`.
 
 # Documentação swagger
 
-Para ler a documentação swagger da aplicação localmente acesse `http://localhost:80/swagger-ui/index.html`.
+Para ler a documentação swagger da aplicação localmente acesse `http://localhost:8080/swagger-ui/index.html`.
 
-Para ler a documentação swagger da aplicação que está no ar acesse ``.
+Para ler a documentação swagger da aplicação que está no ar acesse `http://ec2-3-87-88-139.compute-1.amazonaws.com:8080/swagger-ui/index.html`.
 
 # Autor
 
