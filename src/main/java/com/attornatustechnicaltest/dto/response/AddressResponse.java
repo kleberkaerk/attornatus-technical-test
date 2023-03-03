@@ -1,17 +1,25 @@
 package com.attornatustechnicaltest.dto.response;
 
 import com.attornatustechnicaltest.domain.Person;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Objects;
 
 public class AddressResponse {
 
+    @Schema(description = "Id do endereço", example = "1")
     private final Long id;
+    @Schema(description = "Cep", example = "11111-111")
     private final String cep;
+    @Schema(description = "Número", example = "1")
     private final String number;
+    @Schema(description = "Logradouro", example = "Rua Um")
     private final String publicPlace;
+    @Schema(description = "Cidade", example = "São Paulo")
     private final String city;
+    @Schema(description = "Informa se é o endereço principal da pessoa", example = "true")
     private final boolean isMain;
+    @Schema(description = "Pessoa residente no endereço")
     private final Person person;
 
     private AddressResponse(Long id, String cep, String number, String publicPlace, String city, boolean isMain, Person person) {
